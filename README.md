@@ -171,62 +171,11 @@ npm install reactflow
 ```bash
 npm install three @react-three/fiber @react-three/drei
 ```
-
 ---
 
-## 5. 配置 Ant Design
+## 5. 页面组件说明
 
-打开：
-
-```txt
-src/app/layout.tsx
-```
-
-修改为：
-
-```tsx
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata: Metadata = {
-  title: "医学诊疗系统",
-  description: "Medical AI Diagnosis System",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="zh-CN"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <AntdRegistry>{children}</AntdRegistry>
-      </body>
-    </html>
-  );
-}
-```
----
-
-## 7. 页面组件说明
-
-当前 `/test` 页面建议只负责整体布局，具体功能拆分到组件中。
+当前 `/main` 页面建议只负责整体布局，具体功能拆分到组件中。
 
 ```txt
 顶部病人信息栏              PatientHeader
@@ -254,9 +203,9 @@ TestPage
 
 ---
 
-## 8. 后端环境准备
+## 6. 后端环境准备
 
-### 8.1 创建 Python 环境
+### 6.1 创建 Python 环境
 
 推荐使用 conda：
 
@@ -269,7 +218,7 @@ conda activate medical_backend
 
 ---
 
-## 9. 安装后端依赖
+## 7. 安装后端依赖
 
 基础后端依赖：
 
@@ -324,7 +273,7 @@ h5py
 
 ---
 
-## 11. 后端 requirements.txt
+## 8. 后端 requirements.txt
 
 创建：
 
@@ -363,4 +312,10 @@ h5py
 
 ```bash
 pip install -r requirements.txt
+```
+
+启动后端：
+```bash
+cd model-demo-backend
+uvicorn main_new:app --reload --host 0.0.0.0 --port 8000
 ```
