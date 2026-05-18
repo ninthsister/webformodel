@@ -1,0 +1,17 @@
+[
+  {
+    "title": "盆腔淋巴结评估：",
+    "content": "当前影像显示左侧髂外淋巴结可疑。PET/CT 检查缺失，因此在最终治疗方案制定前，建议补充相关影像学检查。",
+    "titleClassName": "text-red-500"
+  },
+  {
+    "title": "宫旁浸润评估：",
+    "content": "当前 MRI 显示宫旁界面不清。建议结合增强 MRI 和 DWI 进一步评估宫旁浸润情况。",
+    "titleClassName": "text-green-600"
+  },
+  {
+    "title": "最终建议：",
+    "content": "当前证据不足，暂不能形成明确的术前评估结论。建议补充影像资料后，结合 MDT 多学科讨论进一步制定治疗方案。",
+    "titleClassName": "text-blue-600"
+  }
+]

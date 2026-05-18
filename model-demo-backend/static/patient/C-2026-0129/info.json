@@ -1,0 +1,19 @@
+{
+  "id": "C-2026-0129",
+  "name": "测试病人2",
+  "age": 12,
+  "gender": "女",
+  "stage": "IB2",
+  "date": "2026-05-20",
+  "modalities": [
+    "MRI",
+    "PET"
+  ],
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-15 18:23:14",
+    "finished_at": "2026-05-15 18:23:19",
+    "result": {}
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "C-2026-0128",
+  "name": "测试病人1",
+  "age": 47,
+  "gender": "女",
+  "stage": "IB2",
+  "date": "2026-05-20",
+  "modalities": [
+    "MRI",
+    "PET",
+    "CT",
+    "PET/CT"
+  ],
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-18 10:58:38",
+    "finished_at": "2026-05-18 10:58:43",
+    "result": {}
+  }
+}

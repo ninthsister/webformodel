@@ -1,0 +1,56 @@
+[
+    {
+        "type": "summary",
+        "title": "推理摘要",
+        "content": "系统已完成自动分析。MRI 显示左侧髂外及闭孔区存在可疑淋巴结，结合影像特征提示盆腔淋巴结转移风险较高。宫旁浸润证据相对不足，当前判断仍需结合增强影像和临床病史进一步确认。",
+        "className": "text-blue-700"
+    },
+    {
+        "type": "conclusion",
+        "title": "评估结论",
+        "content": "当前证据提示盆腔淋巴结转移高风险，宫旁浸润风险较低。",
+        "className": "text-red-600"
+    },
+    {
+        "type": "evidence",
+        "title": "证据充分性检查",
+        "items": [
+            {
+                "name": "MRI",
+                "status": "已提供",
+                "className": "text-green-600"
+            },
+            {
+                "name": "PET/CT",
+                "status": "缺失",
+                "className": "text-red-500"
+            },
+            {
+                "name": "CT",
+                "status": "已提供",
+                "className": "text-green-600"
+            },
+            {
+                "name": "临床病史",
+                "status": "部分缺失",
+                "className": "text-orange-500"
+            }
+        ]
+    },
+    {
+        "type": "warning",
+        "title": "风险提示",
+        "content": "PET/CT 和完整临床病史缺失，建议人工复核高风险结论。",
+        "className": "text-red-600"
+    },
+    {
+        "type": "suggestions",
+        "title": "下一步建议",
+        "items": [
+            "建议补充盆腔增强 MRI 检查",
+            "建议考虑 PET/CT 以进一步评估淋巴结状态",
+            "建议完善详细临床病史资料",
+            "补充影像资料后，建议进行 MDT 多学科讨论"
+        ]
+    }
+]
