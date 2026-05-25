@@ -1,0 +1,6 @@
+name: web_backend
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+prefix: /data2/wtx/miniconda3/envs/web_backend
