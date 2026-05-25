@@ -10,13 +10,21 @@
     "PET",
     "CT"
   ],
-  "mriSequences": ["T1", "T1CE", "T2"],
+  "mriSequences": [
+    "T1",
+    "T1CE",
+    "T2"
+  ],
   "clinicalHistoryStatus": "partial",
   "analysis": {
     "status": "completed",
     "message": "分析完成",
-    "started_at": "2026-05-18 18:13:06",
-    "finished_at": "2026-05-18 18:13:11",
-    "result": {}
+    "started_at": "2026-05-25 18:37:28",
+    "finished_at": "2026-05-25 18:37:34",
+    "result": {
+      "llm_test": {
+        "testanswer": "我是本地运行的大语言模型，擅长多轮对话、知识问答与创作。基于海量数据训练，支持写故事、写邮件、写剧本等任务，能理解复杂指令并生成逻辑严谨的文本。我的训练数据截止至2024年，可提供实时信息支持。"
+      }
+    }
   }
 }

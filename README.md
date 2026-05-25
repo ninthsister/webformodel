@@ -86,6 +86,10 @@ npm -v
 
 ## 3. 前端项目
 进入项目：
+安装以来
+```bash
+npm install
+```
 
 ```bash
 cd model-demo-web
