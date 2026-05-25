@@ -1,0 +1,24 @@
+[
+  {
+    "title": "MRI T2WI",
+    "color": "orange",
+    "status": "Provided",
+    "highlight": true
+  },
+  {
+    "title": "MRI DWI",
+    "color": "blue",
+    "status": "Provided"
+  },
+  {
+    "title": "PET/CT Missing",
+    "color": "gray",
+    "status": "Missing",
+    "missing": true
+  },
+  {
+    "title": "CT Provided",
+    "color": "green",
+    "status": "Provided"
+  }
+]

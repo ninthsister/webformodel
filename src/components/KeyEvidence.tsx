@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { FileSearchOutlined } from "@ant-design/icons";
 import { Card, Space, Spin, Tag, Typography, message } from "antd";
+import type { Language } from "@/components/i18n";
+import { buildApiUrl, getLanguageHeaders, statusText, zhEn } from "@/components/i18n";
 
 const { Text } = Typography;
 
@@ -35,7 +37,7 @@ type KeyEvidenceResponse = {
   summary?: string;
 };
 
-const DEFAULT_EVIDENCE_ITEMS: EvidenceItem[] = [
+const DEFAULT_EVIDENCE_ITEMS_ZH: EvidenceItem[] = [
   {
     title: "MRI T2WI",
     color: "orange",
@@ -60,8 +62,25 @@ const DEFAULT_EVIDENCE_ITEMS: EvidenceItem[] = [
   },
 ];
 
-const DEFAULT_SUMMARY =
+const DEFAULT_EVIDENCE_ITEMS_EN: EvidenceItem[] = [
+  { title: "MRI T2WI", color: "orange", status: "Provided", highlight: true },
+  { title: "MRI DWI", color: "blue", status: "Provided" },
+  { title: "PET/CT missing", color: "gray", status: "Missing", missing: true },
+  { title: "CT provided", color: "green", status: "Provided" },
+];
+
+const DEFAULT_SUMMARY_ZH =
   "PET/CT 检查缺失。建议进一步进行代谢影像学评估，以判断可疑淋巴结状态。";
+const DEFAULT_SUMMARY_EN =
+  "PET/CT is missing. Further metabolic imaging is recommended to evaluate the suspicious lymph node status.";
+
+function getDefaultEvidenceItems(language?: Language) {
+  return language === "en" ? DEFAULT_EVIDENCE_ITEMS_EN : DEFAULT_EVIDENCE_ITEMS_ZH;
+}
+
+function getDefaultSummary(language?: Language) {
+  return language === "en" ? DEFAULT_SUMMARY_EN : DEFAULT_SUMMARY_ZH;
+}
 
 function getAnalysisStatus(patient?: Patient) {
   return patient?.analysisStatus || patient?.analysis?.status || "未分析";
@@ -119,13 +138,15 @@ function EvidenceBlock({ item }: { item: EvidenceItem }) {
 export default function KeyEvidence({
   currentPatient,
   embedded = false,
+  language = "zh",
 }: {
   currentPatient?: Patient;
   embedded?: boolean;
+  language?: Language;
 }) {
   const [evidenceItems, setEvidenceItems] =
-    useState<EvidenceItem[]>(DEFAULT_EVIDENCE_ITEMS);
-  const [summary, setSummary] = useState(DEFAULT_SUMMARY);
+    useState<EvidenceItem[]>(getDefaultEvidenceItems(language));
+  const [summary, setSummary] = useState(getDefaultSummary(language));
   const [loading, setLoading] = useState(false);
 
   const analysisStatus = useMemo(
@@ -139,14 +160,14 @@ export default function KeyEvidence({
     const patientId: string = currentPatient?.id as string;
 
     if (!patientId || patientId === "??????") {
-      setEvidenceItems(DEFAULT_EVIDENCE_ITEMS);
-      setSummary(DEFAULT_SUMMARY);
+      setEvidenceItems(getDefaultEvidenceItems(language));
+      setSummary(getDefaultSummary(language));
       return;
     }
 
     if (!isAnalysisFinished) {
-      setEvidenceItems(DEFAULT_EVIDENCE_ITEMS);
-      setSummary(DEFAULT_SUMMARY);
+      setEvidenceItems(getDefaultEvidenceItems(language));
+      setSummary(getDefaultSummary(language));
       return;
     }
 
@@ -157,13 +178,20 @@ export default function KeyEvidence({
         setLoading(true);
 
         const res = await fetch(
-          `http://127.0.0.1:8000/api/patient/${encodeURIComponent(
-            patientId
-          )}/key-evidence`
+          buildApiUrl(
+            `http://127.0.0.1:8000/api/patient/${encodeURIComponent(
+              patientId
+            )}/key-evidence`,
+            language
+          ),
+          {
+            method: "GET",
+            headers: getLanguageHeaders(language),
+          }
         );
 
         if (!res.ok) {
-          throw new Error(`请求失败: ${res.status}`);
+          throw new Error(`${zhEn(language, "请求失败", "Request failed")}: ${res.status}`);
         }
 
         const data: KeyEvidenceResponse = await res.json();
@@ -173,16 +201,16 @@ export default function KeyEvidence({
         if (data.evidenceItems && data.evidenceItems.length > 0) {
           setEvidenceItems(data.evidenceItems);
         } else {
-          setEvidenceItems(DEFAULT_EVIDENCE_ITEMS);
+          setEvidenceItems(getDefaultEvidenceItems(language));
         }
 
-        setSummary(data.summary || DEFAULT_SUMMARY);
+        setSummary(data.summary || getDefaultSummary(language));
       } catch (error) {
         if (!ignore) {
           console.error("获取关键证据失败:", error);
-          message.warning("暂未获取到后端关键证据，已使用默认关键证据");
-          setEvidenceItems(DEFAULT_EVIDENCE_ITEMS);
-          setSummary(DEFAULT_SUMMARY);
+          message.warning(zhEn(language, "暂未获取到后端关键证据，已使用默认关键证据", "Backend key evidence is unavailable. Default evidence is shown."));
+          setEvidenceItems(getDefaultEvidenceItems(language));
+          setSummary(getDefaultSummary(language));
         }
       } finally {
         if (!ignore) {
@@ -196,7 +224,7 @@ export default function KeyEvidence({
     return () => {
       ignore = true;
     };
-  }, [currentPatient?.id, isAnalysisFinished,currentPatient?.analysis?.started_at]);
+  }, [currentPatient?.id, isAnalysisFinished, currentPatient?.analysis?.started_at, language]);
 
   const content = (
     <Spin spinning={loading}>
@@ -221,9 +249,9 @@ export default function KeyEvidence({
       title={
         <Space>
           <FileSearchOutlined className="text-blue-600" />
-          <span>关键证据</span>
+          <span>{zhEn(language, "关键证据", "Key Evidence")}</span>
           <Tag color={isAnalysisFinished ? "green" : "default"}>
-            {analysisStatus}
+            {statusText(language, analysisStatus)}
           </Tag>
         </Space>
       }

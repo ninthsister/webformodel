@@ -1,0 +1,19 @@
+{
+  "id": "C-2026-0130",
+  "name": "测试病人3",
+  "age": 70,
+  "gender": "女",
+  "stage": "IB2",
+  "date": "2026-05-21",
+  "modalities": [
+    "PET"
+  ],
+  "clinicalHistoryStatus": "provided",
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-20 23:13:26",
+    "finished_at": "2026-05-20 23:13:31",
+    "result": {}
+  }
+}

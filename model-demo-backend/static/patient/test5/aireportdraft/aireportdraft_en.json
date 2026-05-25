@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Pelvic Lymph Node Assessment:",
+    "content": "Current imaging shows a suspicious left external iliac lymph node. PET/CT is missing, so supplemental imaging is recommended before finalizing the treatment plan.",
+    "titleClassName": "text-red-500"
+  },
+  {
+    "title": "Parametrial Invasion Assessment:",
+    "content": "Current MRI shows an unclear parametrial interface. Contrast-enhanced MRI and DWI are recommended for further evaluation of parametrial invasion.",
+    "titleClassName": "text-green-600"
+  },
+  {
+    "title": "Final Recommendation:",
+    "content": "Current evidence is insufficient to form a definitive preoperative assessment conclusion. After supplemental imaging data are available, further treatment planning through MDT discussion is recommended.",
+    "titleClassName": "text-blue-600"
+  }
+]

@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { FileTextOutlined } from "@ant-design/icons";
 import { Card, Space, Typography, Spin, message, Tag } from "antd";
+import type { Language } from "@/components/i18n";
+import { buildApiUrl, getLanguageHeaders, statusText, zhEn } from "@/components/i18n";
 
 const { Text, Paragraph } = Typography;
 
@@ -50,9 +52,10 @@ type ReportResponse = {
 type ReportDraftProps = {
   embedded?: boolean;
   currentPatient?: Patient;
+  language?: Language;
 };
 
-const DEFAULT_REPORT_SECTIONS: ReportSection[] = [
+const DEFAULT_REPORT_SECTIONS_ZH: ReportSection[] = [
   {
     title: "盆腔淋巴结评估：",
     content:
@@ -72,6 +75,16 @@ const DEFAULT_REPORT_SECTIONS: ReportSection[] = [
     titleClassName: "text-blue-600",
   },
 ];
+
+const DEFAULT_REPORT_SECTIONS_EN: ReportSection[] = [
+  { title: "Pelvic lymph node assessment:", content: "The current patient has not completed automatic analysis. The system is temporarily displaying a default report draft. After analysis is completed, the AI report draft will be loaded from the backend.", titleClassName: "text-red-500" },
+  { title: "Parametrial invasion assessment:", content: "The current analysis has not been completed, so a clear assessment based on MRI, DWI, or contrast-enhanced imaging cannot be provided yet.", titleClassName: "text-green-600" },
+  { title: "Final recommendation:", content: "Please import patient images and basic information first, then click Start Analysis. After analysis is completed, the AI report draft will be updated automatically.", titleClassName: "text-blue-600" },
+];
+
+function getDefaultReportSections(language?: Language) {
+  return language === "en" ? DEFAULT_REPORT_SECTIONS_EN : DEFAULT_REPORT_SECTIONS_ZH;
+}
 
 function getAnalysisStatus(patient?: Patient) {
   return patient?.analysisStatus || patient?.analysis?.status || "未分析";
@@ -102,9 +115,10 @@ function ReportContent({ sections }: { sections: ReportSection[] }) {
 export default function ReportDraft({
   embedded = false,
   currentPatient,
+  language = "zh",
 }: ReportDraftProps) {
   const [reportSections, setReportSections] = useState<ReportSection[]>(
-    DEFAULT_REPORT_SECTIONS
+    getDefaultReportSections(language)
   );
   const [loading, setLoading] = useState(false);
 
@@ -120,13 +134,13 @@ export default function ReportDraft({
     const patientId: string = currentPatient?.id as string;
 
     if (!patientId || patientId === "??????") {
-      setReportSections(DEFAULT_REPORT_SECTIONS);
+      setReportSections(getDefaultReportSections(language));
       setLoading(false);
       return;
     }
 
     if (!isAnalysisFinished) {
-      setReportSections(DEFAULT_REPORT_SECTIONS);
+      setReportSections(getDefaultReportSections(language));
       setLoading(false);
       return;
     }
@@ -138,16 +152,20 @@ export default function ReportDraft({
         setLoading(true);
 
         const res = await fetch(
-          `http://127.0.0.1:8000/api/patient/AIreport/${encodeURIComponent(
-            patientId
-          )}`,
+          buildApiUrl(
+            `http://127.0.0.1:8000/api/patient/AIreport/${encodeURIComponent(
+              patientId
+            )}`,
+            language
+          ),
           {
             method: "GET",
+            headers: getLanguageHeaders(language),
           }
         );
 
         if (!res.ok) {
-          throw new Error(`请求失败: ${res.status}`);
+          throw new Error(`${zhEn(language, "请求失败", "Request failed")}: ${res.status}`);
         }
 
         const data: ReportResponse | ReportSection[] = await res.json();
@@ -182,18 +200,18 @@ export default function ReportDraft({
           ? data.aireportdraft
           : Array.isArray(data.reportSections)
           ? data.reportSections
-          : DEFAULT_REPORT_SECTIONS;
+          : getDefaultReportSections(language);
 
         if (nextSections.length > 0) {
           setReportSections(nextSections);
         } else {
-          setReportSections(DEFAULT_REPORT_SECTIONS);
+          setReportSections(getDefaultReportSections(language));
         }
       } catch (error) {
         if (!ignore) {
           console.error("获取 AI 报告草稿失败:", error);
-          message.warning("暂未获取到后端 AI 报告草稿，已使用默认报告内容");
-          setReportSections(DEFAULT_REPORT_SECTIONS);
+          message.warning(zhEn(language, "暂未获取到后端 AI 报告草稿，已使用默认报告内容", "Backend AI report draft is unavailable. Default report content is shown."));
+          setReportSections(getDefaultReportSections(language));
         }
       } finally {
         if (!ignore) {
@@ -207,7 +225,7 @@ export default function ReportDraft({
     return () => {
       ignore = true;
     };
-  }, [currentPatient?.id, isAnalysisFinished,currentPatient?.analysis?.started_at]);
+  }, [currentPatient?.id, isAnalysisFinished, currentPatient?.analysis?.started_at, language]);
 
   const content = (
     <Spin spinning={loading}>
@@ -224,9 +242,9 @@ export default function ReportDraft({
       title={
         <Space>
           <FileTextOutlined className="text-blue-600" />
-          <span>AI 生成报告草稿</span>
+          <span>{zhEn(language, "AI 生成报告草稿", "AI-generated Report Draft")}</span>
           <Tag color={isAnalysisFinished ? "green" : "default"}>
-            {analysisStatus}
+            {statusText(language, analysisStatus)}
           </Tag>
         </Space>
       }

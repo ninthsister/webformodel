@@ -3,6 +3,8 @@
 import { Card } from "antd";
 import DoctorFeedback from "@/components/DoctorFeedback";
 import ActionPanel from "@/components/ActionPanel";
+import type { Language } from "@/components/i18n";
+import { zhEn } from "@/components/i18n";
 
 type Patient = {
   id: string;
@@ -24,16 +26,18 @@ type Patient = {
 
 export default function FeedbackActionPanel({
   currentPatient,
+  language = "zh",
 }: {
   currentPatient: Patient;
+  language?: Language;
 }) {
   return (
     <Card
       className="h-full shadow-sm"
       title={
         <div className="grid grid-cols-[1fr_200px]">
-          <div className="px-6">医生反馈</div>
-          <div className="border-l border-slate-200 px-6">操作</div>
+          <div className="px-6">{zhEn(language, "医生反馈", "Doctor Feedback")}</div>
+          <div className="border-l border-slate-200 px-6">{zhEn(language, "操作", "Actions")}</div>
         </div>
       }
     >
@@ -43,11 +47,12 @@ export default function FeedbackActionPanel({
             currentPatient={currentPatient}
             embedded
             showTitle={false}
+            language={language}
           />
         </div>
 
         <div className="border-l border-slate-200 px-6">
-          <ActionPanel embedded showTitle={false} />
+          <ActionPanel embedded showTitle={false} language={language} />
         </div>
       </div>
     </Card>

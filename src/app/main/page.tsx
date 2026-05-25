@@ -1,116 +1,174 @@
 "use client";
 
-import { useState } from "react";
-import { Tag, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { message } from "antd";
+import PageTopBar from "@/components/PageTopBar";
 import PatientHeader from "@/components/PatientHeader";
 import MRIViewer from "@/components/MRIViewer";
 import AssessmentPanel from "@/components/AssessmentPanel";
 import ReasoningPanel from "@/components/ReasoningPanel";
 import ReportEvidencePanel from "@/components/ReportEvidencePanel";
 import FeedbackActionPanel from "@/components/FeedbackActionPanel";
+import { buildApiUrl, getLanguageHeaders } from "@/components/i18n";
+import type { Language } from "@/components/i18n";
 
-const { Title, Text } = Typography;
-
-/**
- * 当前病人类型
- *
- * 这个类型需要和后端返回的 patient 字段尽量保持一致。
- * gender 和 sex 都保留，是为了兼容后端有时返回 gender，有时前端使用 sex。
- */
 export type Patient = {
   id: string;
   name?: string;
   age?: number;
-  sex?: string;
   gender?: string;
   stage?: string;
   date?: string;
   modalities?: string[];
+  mriSequences?: string[];
+  clinicalHistoryStatus?: "missing" | "partial" | "provided";
   analysis?: {
     status: "not_started" | "analyzing" | "completed" | "failed";
     message?: string;
     started_at?: string | null;
     finished_at?: string | null;
-    result?: {
-    };
+    result?: {};
   };
 };
 
+const PAGE_TEXT = {
+  zh: {
+    reloadFailed: "切换语言后重新读取病人信息失败",
+  },
+  en: {
+    reloadFailed: "Failed to reload patient information after language switch",
+  },
+};
+
 export default function TestPage() {
-  /**
-   * 当前页面正在展示的病人
-   *
-   * 这里是整个页面的“唯一病人状态”。
-   * 之后 PatientHeader、MRIViewer、AssessmentPanel 等组件都从这里拿当前病人。
-   */
+  const [language, setLanguage] = useState<Language>("zh");
+
+  const t = PAGE_TEXT[language];
+
   const [currentPatient, setCurrentPatient] = useState<Patient>({
     id: "??????",
     name: "未选择病人",
     age: 0,
-    sex: "未知",
+    gender: "未知",
     stage: "未知",
     date: "未知",
     modalities: [],
+    mriSequences: [],
+    clinicalHistoryStatus: "missing",
     analysis: {
       status: "not_started",
       message: "尚未开始分析",
-      started_at:  null,
-      finished_at:  null,
+      started_at: null,
+      finished_at: null,
       result: {},
     },
   });
 
+  useEffect(() => {
+    const patientId = currentPatient.id;
+
+    if (!patientId || patientId === "??????") {
+      return;
+    }
+
+    const controller = new AbortController();
+
+    async function reloadPatientByLanguage() {
+      try {
+        const res = await fetch(
+          buildApiUrl(
+            `http://127.0.0.1:8000/api/patient/import/${encodeURIComponent(
+              patientId
+            )}`,
+            language
+          ),
+          {
+            method: "GET",
+            headers: getLanguageHeaders(language),
+            signal: controller.signal,
+          }
+        );
+
+        if (!res.ok) {
+          throw new Error(`${t.reloadFailed}: ${res.status}`);
+        }
+
+        const data = await res.json();
+
+        const rawPatient = data.patient || data;
+
+        const nextPatient: Patient = {
+          ...rawPatient,
+          id: rawPatient.id || patientId,
+        };
+
+        setCurrentPatient(nextPatient);
+      } catch (error) {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        console.error(error);
+        message.error(t.reloadFailed);
+      }
+    }
+
+    reloadPatientByLanguage();
+
+    return () => {
+      controller.abort();
+    };
+  }, [language, currentPatient.id, t.reloadFailed]);
+
   return (
     <main className="min-h-screen bg-slate-100 p-4">
       <div className="mx-auto max-w-[1600px] space-y-4">
-        {/* 页面顶部标题栏 */}
-        <div className="flex items-center justify-between">
-          <div>
-            <Title level={3} className="!mb-0">
-              医学诊疗系统
-            </Title>
+        <PageTopBar
+          language={language}
+          onLanguageChange={setLanguage}
+        />
 
-            <Text type="secondary">
-              PLNM & PMI Risk Assessment with Evidence Check
-            </Text>
-          </div>
-
-          <Tag color="blue" className="px-3 py-1">
-            AI for Clinical Use Only
-          </Tag>
-        </div>
-
-        {/* 顶部病人信息栏 */}
         <div className="mb-6">
           <PatientHeader
             currentPatient={currentPatient}
             onPatientChange={setCurrentPatient}
+            language={language}
           />
         </div>
 
-        {/* 第一行主体区域 */}
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-5">
-            <MRIViewer currentPatient={currentPatient} />
+            <MRIViewer currentPatient={currentPatient} language={language} />
           </div>
 
           <div className="col-span-3">
-            <AssessmentPanel currentPatient={currentPatient} />
+            <AssessmentPanel
+              currentPatient={currentPatient}
+              language={language}
+            />
           </div>
 
           <div className="col-span-4">
-            <ReasoningPanel currentPatient={currentPatient} />
+            <ReasoningPanel
+              currentPatient={currentPatient}
+              language={language}
+            />
           </div>
         </div>
 
-        {/* 第二行结果与操作区域 */}
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-8">
-            <ReportEvidencePanel currentPatient={currentPatient}/>
+            <ReportEvidencePanel
+              currentPatient={currentPatient}
+              language={language}
+            />
           </div>
 
           <div className="col-span-4">
-            <FeedbackActionPanel currentPatient={currentPatient} />
+            <FeedbackActionPanel
+              currentPatient={currentPatient}
+              language={language}
+            />
           </div>
         </div>
       </div>

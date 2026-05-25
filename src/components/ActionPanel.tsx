@@ -2,23 +2,27 @@
 
 import { AlertOutlined, FileTextOutlined } from "@ant-design/icons";
 import { Button, Card, Space, Typography } from "antd";
+import type { Language } from "@/components/i18n";
+import { zhEn } from "@/components/i18n";
 
 const { Title } = Typography;
 
 export default function ActionPanel({
   embedded = false,
   showTitle = true,
+  language = "zh",
 }: {
   embedded?: boolean;
   showTitle?: boolean;
+  language?: Language;
 }) {
   const content = (
     <Space orientation="vertical" className="w-full">
       <Button block type="primary" icon={<FileTextOutlined />}>
-        插入报告
+        {zhEn(language, "插入报告", "Insert Report")}
       </Button>
 
-      <Button block>编辑报告</Button>
+      <Button block>{zhEn(language, "编辑报告", "Edit Report")}</Button>
 
       <Button
         block
@@ -27,8 +31,8 @@ export default function ActionPanel({
         className="h-auto min-h-12 whitespace-normal"
       >
         <span className="flex flex-col items-center leading-5">
-          <span>请求补充</span>
-          <span>检查</span>
+          <span>{zhEn(language, "请求补充", "Request Additional")}</span>
+          <span>{zhEn(language, "检查", "Check")}</span>
         </span>
       </Button>
     </Space>
@@ -39,7 +43,7 @@ export default function ActionPanel({
       <div>
         {showTitle && (
           <Title level={4} className="!mb-5">
-            操作
+            {zhEn(language, "操作", "Actions")}
           </Title>
         )}
 
@@ -49,7 +53,7 @@ export default function ActionPanel({
   }
 
   return (
-    <Card title="操作" className="h-full shadow-sm">
+    <Card title={zhEn(language, "操作", "Actions")} className="h-full shadow-sm">
       {content}
     </Card>
   );

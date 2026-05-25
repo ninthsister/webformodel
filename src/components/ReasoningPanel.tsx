@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { InfoCircleOutlined, WarningFilled } from "@ant-design/icons";
 import { Card, Space, Typography, Spin, Tag, message } from "antd";
+import type { Language } from "@/components/i18n";
+import { buildApiUrl, getLanguageHeaders, statusText, zhEn } from "@/components/i18n";
 
 const { Text, Paragraph } = Typography;
 
@@ -42,7 +44,7 @@ type ReasoningResponse = {
   reasoningItems?: ReasoningItem[];
 };
 
-const DEFAULT_REASONING_ITEMS: ReasoningItem[] = [
+const DEFAULT_REASONING_ITEMS_ZH: ReasoningItem[] = [
   {
     type: "summary",
     title: "推理摘要",
@@ -98,6 +100,27 @@ const DEFAULT_REASONING_ITEMS: ReasoningItem[] = [
     ],
   },
 ];
+
+const DEFAULT_REASONING_ITEMS_EN: ReasoningItem[] = [
+  { type: "summary", title: "Reasoning Summary", content: "The current patient has not completed automatic analysis. The system is temporarily displaying default reasoning information. After analysis is completed, full reasoning results will be loaded from the backend.", className: "text-blue-700" },
+  { type: "conclusion", title: "Assessment Conclusion", content: "The current analysis has not been completed, so a clear preoperative assessment conclusion cannot be provided yet.", className: "text-orange-600" },
+  { type: "evidence", title: "Evidence Sufficiency Check", items: [
+    { name: "MRI", status: "Waiting for analysis", className: "text-orange-500" },
+    { name: "PET/CT", status: "Waiting for analysis", className: "text-orange-500" },
+    { name: "CT", status: "Waiting for analysis", className: "text-orange-500" },
+    { name: "Clinical history", status: "Waiting for analysis", className: "text-orange-500" },
+  ] },
+  { type: "warning", title: "Risk Warning", content: "Automatic analysis has not been completed. The current content is default placeholder information.", className: "text-red-600" },
+  { type: "suggestions", title: "Next Steps", items: [
+    "Import patient images and basic information first",
+    "Click Start Analysis and wait for model inference to finish",
+    "After analysis is completed, the system will update evidence status and reasoning summary automatically",
+  ] },
+];
+
+function getDefaultReasoningItems(language?: Language) {
+  return language === "en" ? DEFAULT_REASONING_ITEMS_EN : DEFAULT_REASONING_ITEMS_ZH;
+}
 
 function getAnalysisStatus(patient?: Patient) {
   return patient?.analysisStatus || patient?.analysis?.status || "未分析";
@@ -186,11 +209,13 @@ function ReasoningBlock({ item }: { item: ReasoningItem }) {
 
 export default function ReasoningPanel({
   currentPatient,
+  language = "zh",
 }: {
   currentPatient: Patient;
+  language?: Language;
 }) {
   const [reasoningItems, setReasoningItems] = useState<ReasoningItem[]>(
-    DEFAULT_REASONING_ITEMS
+    getDefaultReasoningItems(language)
   );
   const [loading, setLoading] = useState(false);
 
@@ -205,12 +230,12 @@ export default function ReasoningPanel({
     const patientId = currentPatient?.id;
 
     if (!patientId || patientId === "??????") {
-      setReasoningItems(DEFAULT_REASONING_ITEMS);
+      setReasoningItems(getDefaultReasoningItems(language));
       return;
     }
 
     if (!isAnalysisFinished) {
-      setReasoningItems(DEFAULT_REASONING_ITEMS);
+      setReasoningItems(getDefaultReasoningItems(language));
       return;
     }
 
@@ -221,13 +246,20 @@ export default function ReasoningPanel({
         setLoading(true);
 
         const res = await fetch(
-          `http://127.0.0.1:8000/api/patient/reasoning/${encodeURIComponent(
-            patientId
-          )}`
+          buildApiUrl(
+            `http://127.0.0.1:8000/api/patient/reasoning/${encodeURIComponent(
+              patientId
+            )}`,
+            language
+          ),
+          {
+            method: "GET",
+            headers: getLanguageHeaders(language),
+          }
         );
 
         if (!res.ok) {
-          throw new Error(`请求失败: ${res.status}`);
+          throw new Error(`${zhEn(language, "请求失败", "Request failed")}: ${res.status}`);
         }
 
         const data: ReasoningResponse | ReasoningItem[] = await res.json();
@@ -260,18 +292,18 @@ export default function ReasoningPanel({
           ? data.reasoning
           : Array.isArray(data.reasoningItems)
           ? data.reasoningItems
-          : DEFAULT_REASONING_ITEMS;
+          : getDefaultReasoningItems(language);
 
         if (nextItems.length > 0) {
           setReasoningItems(nextItems);
         } else {
-          setReasoningItems(DEFAULT_REASONING_ITEMS);
+          setReasoningItems(getDefaultReasoningItems(language));
         }
       } catch (error) {
         if (!ignore) {
           console.error("获取推理信息失败:", error);
-          message.warning("暂未获取到后端推理结果，已使用默认推理信息");
-          setReasoningItems(DEFAULT_REASONING_ITEMS);
+          message.warning(zhEn(language, "暂未获取到后端推理结果，已使用默认推理信息", "Backend reasoning result is unavailable. Default reasoning is shown."));
+          setReasoningItems(getDefaultReasoningItems(language));
         }
       } finally {
         if (!ignore) {
@@ -285,16 +317,16 @@ export default function ReasoningPanel({
     return () => {
       ignore = true;
     };
-  }, [currentPatient?.id, isAnalysisFinished,currentPatient?.analysis?.started_at]);
+  }, [currentPatient?.id, isAnalysisFinished, currentPatient?.analysis?.started_at, language]);
 
   return (
     <Card
       title={
         <Space>
           <InfoCircleOutlined className="text-blue-600" />
-          <span>证据状态</span>
+          <span>{zhEn(language, "证据状态", "Evidence Status")}</span>
           <Tag color={isAnalysisFinished ? "green" : "default"}>
-            {analysisStatus}
+            {statusText(language, analysisStatus)}
           </Tag>
         </Space>
       }

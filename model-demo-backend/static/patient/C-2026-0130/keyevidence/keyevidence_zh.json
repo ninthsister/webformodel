@@ -1,0 +1,24 @@
+[
+    {
+      "title": "MRI T2WI",
+      "color": "orange",
+      "status": "已提供",
+      "highlight": true
+    },
+    {
+      "title": "MRI DWI",
+      "color": "blue",
+      "status": "已提供"
+    },
+    {
+      "title": "PET/CT 缺失",
+      "color": "gray",
+      "status": "缺失",
+      "missing": true
+    },
+    {
+      "title": "CT 已提供",
+      "color": "green",
+      "status": "已提供"
+    }
+]

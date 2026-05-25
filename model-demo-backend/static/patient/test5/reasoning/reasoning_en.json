@@ -1,0 +1,56 @@
+[
+  {
+    "type": "summary",
+    "title": "Reasoning Summary",
+    "content": "The system has completed the automated analysis. MRI shows suspicious lymph nodes in the left external iliac and obturator regions. Combined with imaging features, this suggests a relatively high risk of pelvic lymph node metastasis. Evidence for parametrial invasion is relatively insufficient, and the current assessment should be further confirmed with contrast-enhanced imaging and clinical history.",
+    "className": "text-blue-700"
+  },
+  {
+    "type": "conclusion",
+    "title": "Assessment Conclusion",
+    "content": "Current evidence suggests a high risk of pelvic lymph node metastasis and a low risk of parametrial invasion.",
+    "className": "text-red-600"
+  },
+  {
+    "type": "evidence",
+    "title": "Evidence Sufficiency Check",
+    "items": [
+      {
+        "name": "MRI",
+        "status": "Provided",
+        "className": "text-green-600"
+      },
+      {
+        "name": "PET/CT",
+        "status": "Missing",
+        "className": "text-red-500"
+      },
+      {
+        "name": "CT",
+        "status": "Provided",
+        "className": "text-green-600"
+      },
+      {
+        "name": "Clinical History",
+        "status": "Partially Missing",
+        "className": "text-orange-500"
+      }
+    ]
+  },
+  {
+    "type": "warning",
+    "title": "Risk Warning",
+    "content": "PET/CT and complete clinical history are missing. Manual review of the high-risk conclusion is recommended.",
+    "className": "text-red-600"
+  },
+  {
+    "type": "suggestions",
+    "title": "Next-Step Recommendations",
+    "items": [
+      "Recommend supplemental contrast-enhanced pelvic MRI.",
+      "Consider PET/CT to further evaluate lymph node status.",
+      "Recommend completing the detailed clinical history.",
+      "After additional imaging data are available, recommend further treatment planning through MDT discussion."
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "id": "11111",
+  "name": "111111",
+  "age": 120,
+  "gender": "女",
+  "stage": "1111",
+  "date": "2026-05-01",
+  "modalities": [
+    "MRI",
+    "CT"
+  ],
+  "mriSequences": [
+    "T1"
+  ],
+  "clinicalHistoryStatus": "partial",
+  "analysis": {
+    "status": "not_started",
+    "message": "尚未开始分析",
+    "started_at": null,
+    "finished_at": null,
+    "result": {}
+  }
+}

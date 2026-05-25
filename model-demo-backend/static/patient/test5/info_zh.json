@@ -1,0 +1,26 @@
+{
+  "id": "test5",
+  "name": "测试病人5",
+  "age": 1,
+  "gender": "男",
+  "stage": "213",
+  "date": "2026-05-21",
+  "modalities": [
+    "MRI",
+    "CT",
+    "PET"
+  ],
+  "mriSequences": [
+    "T1",
+    "T1CE",
+    "T2"
+  ],
+  "clinicalHistoryStatus": "provided",
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-20 23:13:46",
+    "finished_at": "2026-05-20 23:13:51",
+    "result": {}
+  }
+}

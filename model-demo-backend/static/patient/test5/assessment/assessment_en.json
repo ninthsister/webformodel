@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Pelvic Lymph Node Metastasis",
+    "riskText": "High Risk",
+    "riskColor": "red",
+    "percent": 89.5,
+    "strokeColor": "#ef4444",
+    "railColor": "#fee2e2",
+    "borderClassName": "border-red-200",
+    "bgClassName": "bg-red-50",
+    "evidenceSufficiency": "Relatively Sufficient",
+    "evidenceClassName": "text-green-600",
+    "modelConsistency": "High",
+    "positiveSliceRatio": "76 / 429",
+    "keyFinding": "Highly suspicious lymph nodes in the left external iliac and obturator regions"
+  },
+  {
+    "title": "Parametrial Invasion",
+    "riskText": "Low Risk",
+    "riskColor": "green",
+    "percent": 18.4,
+    "strokeColor": "#22c55e",
+    "railColor": "#dcfce7",
+    "borderClassName": "border-green-200",
+    "bgClassName": "bg-green-50",
+    "evidenceSufficiency": "Moderate",
+    "evidenceClassName": "text-orange-500",
+    "modelConsistency": "Medium",
+    "positiveSliceRatio": "3 / 128",
+    "keyFinding": "Parametrial fat space is generally clear"
+  }
+]
