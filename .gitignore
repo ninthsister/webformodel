@@ -42,3 +42,9 @@ next-env.d.ts
 
 # editor directories and files
 .idea
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
