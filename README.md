@@ -214,8 +214,8 @@ TestPage
 推荐使用 conda：
 
 ```bash
-conda create -n medical_backend python=3.10 -y
-conda activate medical_backend
+conda create -n web_backend python=3.10 -y
+conda activate web_backend
 ```
 
 如果后续要直接接入已有 PyTorch / nnUNet 模型，也可以使用已有模型环境。
