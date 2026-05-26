@@ -247,7 +247,7 @@ export default function ReasoningPanel({
 
         const res = await fetch(
           buildApiUrl(
-            `http://127.0.0.1:8000/api/patient/reasoning/${encodeURIComponent(
+            `/api/patient/reasoning/${encodeURIComponent(
               patientId
             )}`,
             language

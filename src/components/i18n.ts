@@ -20,10 +20,24 @@ export const statusText = (language: Language | undefined, status?: string) => {
 };
 
 
+export const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://127.0.0.1:8000"
+).replace(/\/$/, "");
+
+export const buildBackendUrl = (path: string) => {
+  if (/^https?:\/\//i.test(path)) {
+    return path.replace(/^https?:\/\/127\.0\.0\.1:8000/i, API_BASE_URL);
+  }
+
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${API_BASE_URL}${normalizedPath}`;
+};
+
 export const buildApiUrl = (url: string, language: Language | undefined) => {
   const lang = language === "en" ? "en" : "zh";
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}language=${encodeURIComponent(lang)}`;
+  const realUrl = buildBackendUrl(url);
+  const separator = realUrl.includes("?") ? "&" : "?";
+  return `${realUrl}${separator}language=${encodeURIComponent(lang)}`;
 };
 
 export const getLanguageHeaders = (language: Language | undefined) => ({

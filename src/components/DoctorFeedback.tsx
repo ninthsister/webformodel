@@ -58,7 +58,7 @@ export default function DoctorFeedback({
 
       const res = await fetch(
         buildApiUrl(
-          `http://127.0.0.1:8000/api/patient/${encodeURIComponent(
+          `/api/patient/${encodeURIComponent(
             patientId
           )}/doctor-feedback`,
           language

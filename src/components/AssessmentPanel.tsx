@@ -202,7 +202,7 @@ export default function AssessmentPanel({
 
         const res = await fetch(
           buildApiUrl(
-            `http://127.0.0.1:8000/api/patient/${encodeURIComponent(
+            `/api/patient/${encodeURIComponent(
               patientId
             )}/assessment`,
             language

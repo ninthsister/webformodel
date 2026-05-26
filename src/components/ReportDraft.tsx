@@ -153,7 +153,7 @@ export default function ReportDraft({
 
         const res = await fetch(
           buildApiUrl(
-            `http://127.0.0.1:8000/api/patient/AIreport/${encodeURIComponent(
+            `/api/patient/AIreport/${encodeURIComponent(
               patientId
             )}`,
             language

@@ -8,6 +8,7 @@ def setup_cors(app: FastAPI):
         allow_origins=[
             "http://localhost:3000",
             "http://127.0.0.1:3000",
+            "http://172.23.148.30:3000",
         ],
         allow_credentials=True,
         allow_methods=["*"],

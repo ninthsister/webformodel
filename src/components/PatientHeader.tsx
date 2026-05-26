@@ -197,7 +197,7 @@ export default function PatientHeader({
       setServerPatientListLoading(true);
 
       const res = await fetch(
-        buildApiUrl("http://127.0.0.1:8000/api/patient/list", language),
+        buildApiUrl("/api/patient/list", language),
         {
           method: "GET",
           headers: getLanguageHeaders(language),
@@ -259,7 +259,7 @@ export default function PatientHeader({
 
       const res = await fetch(
         buildApiUrl(
-          `http://127.0.0.1:8000/api/patient/import/${encodeURIComponent(
+          `/api/patient/import/${encodeURIComponent(
             selectedServerPatientId
           )}`,
           language
@@ -493,7 +493,7 @@ export default function PatientHeader({
 
       const res = await fetch(
         buildApiUrl(
-          "http://127.0.0.1:8000/api/patient/upload-local",
+          "/api/patient/upload-local",
           language
         ),
         {
@@ -603,7 +603,7 @@ export default function PatientHeader({
 
         const res = await fetch(
           buildApiUrl(
-            `http://127.0.0.1:8000/api/analysis/status/${encodeURIComponent(
+            `/api/analysis/status/${encodeURIComponent(
               patientId
             )}`,
             language
@@ -711,7 +711,7 @@ export default function PatientHeader({
       setAnalysisMessage(zhEn(language, "正在分析", "Analyzing"));
 
       const res = await fetch(
-        buildApiUrl("http://127.0.0.1:8000/api/analysis/start", language),
+        buildApiUrl("/api/analysis/start", language),
         {
           method: "POST",
           headers: {
@@ -766,7 +766,7 @@ export default function PatientHeader({
   const exportReport = async () => {
     try {
       const res = await fetch(
-        buildApiUrl("http://127.0.0.1:8000/api/report/export-demo", language),
+        buildApiUrl("/api/report/export-demo", language),
         {
           method: "GET",
           headers: getLanguageHeaders(language),
