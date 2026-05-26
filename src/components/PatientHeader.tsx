@@ -595,7 +595,7 @@ export default function PatientHeader({
 
   const pollAnalysisStatus = async (patientId: string) => {
     let retryCount = 0;
-    const maxRetryCount = 30;
+    const maxRetryCount = 100;
 
     const timer = window.setInterval(async () => {
       try {

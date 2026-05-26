@@ -14,10 +14,10 @@
   ],
   "clinicalHistoryStatus": "partial",
   "analysis": {
-    "status": "not_started",
-    "message": "尚未开始分析",
-    "started_at": null,
-    "finished_at": null,
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-26 11:00:24",
+    "finished_at": "2026-05-26 11:01:07",
     "result": {}
   }
 }

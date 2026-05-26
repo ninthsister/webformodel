@@ -1,0 +1,34 @@
+{
+  "assessment": [
+    {
+      "title": "盆腔淋巴结转移",
+      "riskText": "中等风险",
+      "riskColor": "orange",
+      "percent": 45,
+      "strokeColor": "#f59e0b",
+      "railColor": "#ffedd5",
+      "borderClassName": "border-orange-200",
+      "bgClassName": "bg-orange-50",
+      "evidenceSufficiency": "一般",
+      "evidenceClassName": "text-orange-500",
+      "modelConsistency": "中等",
+      "positiveSliceRatio": "47 / 429",
+      "keyFinding": "可能提示盆腔淋巴结转移，需结合临床进一步评估"
+    },
+    {
+      "title": "宫旁浸润",
+      "riskText": "低风险",
+      "riskColor": "green",
+      "percent": 28,
+      "strokeColor": "#22c55e",
+      "railColor": "#dcfce7",
+      "borderClassName": "border-green-200",
+      "bgClassName": "bg-green-50",
+      "evidenceSufficiency": "不足",
+      "evidenceClassName": "text-red-500",
+      "modelConsistency": "低",
+      "positiveSliceRatio": "23 / 314",
+      "keyFinding": "当前影像学特征未明确显示宫旁浸润，建议补充检查"
+    }
+  ]
+}

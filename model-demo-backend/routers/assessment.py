@@ -34,10 +34,40 @@ def get_patient_assessment(
         lang,
     )
 
+    # 兼容两种格式：
+    # 旧格式：[
+    #   {...},
+    #   {...}
+    # ]
+    #
+    # 新格式：{
+    #   "assessment": [
+    #       {...},
+    #       {...}
+    #   ]
+    # }
+    if isinstance(assessment_data, dict):
+        assessments = assessment_data.get("assessment", [])
+
+        # 兼容可能写成 assessments 的情况
+        if not assessments:
+            assessments = assessment_data.get("assessments", [])
+
+    elif isinstance(assessment_data, list):
+        assessments = assessment_data
+
+    else:
+        assessments = []
+
     print(f"成功读取病人 {patient_id} 的评估结果")
 
     return {
         "patient_id": patient_id,
         "language": lang,
-        "assessments": assessment_data,
+
+        # 前端主要用这个
+        "assessments": assessments,
+
+        # 保留原始 dict，方便你调试 Ollama 原始输出
+        "raw": assessment_data,
     }

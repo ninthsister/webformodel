@@ -34,10 +34,46 @@ def get_patient_key_evidence(
         lang,
     )
 
+    # 兼容两种格式：
+    # 旧格式：[
+    #   {...},
+    #   {...}
+    # ]
+    #
+    # 新格式：{
+    #   "keyevidence": [
+    #       {...},
+    #       {...}
+    #   ]
+    # }
+    if isinstance(keyevidence_data, dict):
+        evidence_items = keyevidence_data.get("keyevidence", [])
+
+        # 兼容可能写成 keyEvidence / evidenceItems 的情况
+        if not evidence_items:
+            evidence_items = keyevidence_data.get("keyEvidence", [])
+
+        if not evidence_items:
+            evidence_items = keyevidence_data.get("evidenceItems", [])
+
+    elif isinstance(keyevidence_data, list):
+        evidence_items = keyevidence_data
+
+    else:
+        evidence_items = []
+
     print(f"成功读取病人 {patient_id} 的关键证据")
 
     return {
         "patient_id": patient_id,
         "language": lang,
-        "evidenceItems": keyevidence_data,
+
+        # 前端主要使用这个字段
+        "evidenceItems": evidence_items,
+
+        # 兼容你现在的 dict 命名
+        "keyevidence": evidence_items,
+
+        # 保留原始 Ollama 输出，方便调试
+        "raw": keyevidence_data,
     }

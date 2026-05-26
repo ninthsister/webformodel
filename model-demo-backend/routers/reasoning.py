@@ -34,10 +34,43 @@ def get_patient_reasoning(
         lang,
     )
 
+    # 兼容两种格式：
+    # 旧格式：[
+    #   {...},
+    #   {...}
+    # ]
+    #
+    # 新格式：{
+    #   "reasoning": [
+    #       {...},
+    #       {...}
+    #   ]
+    # }
+    if isinstance(reasoning_data, dict):
+        reasoning = reasoning_data.get("reasoning", [])
+
+        # 兼容可能写成 reasoningItems 的情况
+        if not reasoning:
+            reasoning = reasoning_data.get("reasoningItems", [])
+
+    elif isinstance(reasoning_data, list):
+        reasoning = reasoning_data
+
+    else:
+        reasoning = []
+
     print(f"成功读取病人 {patient_id} 的推理结果")
 
     return {
         "patient_id": patient_id,
         "language": lang,
-        "reasoning": reasoning_data,
+
+        # 前端主要使用这个
+        "reasoning": reasoning,
+
+        # 兼容旧前端可能使用的字段
+        "reasoningItems": reasoning,
+
+        # 保留原始 Ollama 输出，方便调试
+        "raw": reasoning_data,
     }

@@ -5,7 +5,7 @@ from typing import Optional
 
 from services.file_service import normalize_language
 from services.patient_service import read_patient_info, write_patient_info
-from services.ollama_service import test_ollama_chat_and_save
+from services.ollama_service import generate_all_patient_outputs_with_ollama
 
 
 def _text(lang: str, zh: str, en: str) -> str:
@@ -32,12 +32,16 @@ def run_analysis_task(patient_id: str, language: Optional[str] = "zh"):
         write_patient_info(patient_id, info, lang)
 
         # ================================
-        # 原来的 time.sleep(5) 替换为 Ollama 测试调用
+        # 调用 Ollama 生成 4 个前端模块对应的 JSON 文件：
+        # 1. assessment/assessment_{lang}.json
+        # 2. reasoning/reasoning_{lang}.json
+        # 3. aireportdraft/aireportdraft_{lang}.json
+        # 4. keyevidence/keyevidence_{lang}.json
         # ================================
         ollama_result = asyncio.run(
-            test_ollama_chat_and_save(
-                save_dir=f"static/llm_test/{patient_id}",
-                filename=f"ollama_test_answer_{lang}.json",
+            generate_all_patient_outputs_with_ollama(
+                patient_id=patient_id,
+                language=lang,
             )
         )
 
@@ -49,15 +53,13 @@ def run_analysis_task(patient_id: str, language: Optional[str] = "zh"):
             "message": _text(lang, "分析完成", "Analysis completed"),
             "started_at": info.get("analysis", {}).get("started_at", started_at),
             "finished_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "result": {
-                "llm_test": ollama_result,
-            },
+            "result": {},
         }
 
         write_patient_info(patient_id, info, lang)
 
         print(f"[分析任务] 病人 {patient_id} 分析完成")
-        print(f"[分析任务] Ollama 返回结果：{ollama_result}")
+        print(f"[分析任务] Ollama 生成结果已写入病人目录：{ollama_result.keys()}")
 
     except Exception as e:
         print(f"[分析任务] 病人 {patient_id} 分析失败：{e}")
