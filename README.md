@@ -88,11 +88,8 @@ npm -v
 进入项目：
 安装以来
 ```bash
-npm install
-```
-
-```bash
 cd model-demo-web
+npm install
 ```
 
 启动前端：
@@ -100,84 +97,9 @@ cd model-demo-web
 ```bash
 npm run dev
 ```
-
-如果在 Linux 服务器上运行，并希望外部浏览器访问：
-
-```bash
-npm run dev -- -H 0.0.0.0
-```
-
-访问：
-
-```txt
-http://服务器IP:3000
-```
-
-本机访问：
-
-```txt
-http://127.0.0.1:3000
-```
-
 ---
 
-## 4. 安装前端常用依赖
-
-进入前端项目目录：
-
-```bash
-cd model-demo-web
-```
-
-安装 Ant Design：
-
-```bash
-npm install antd @ant-design/nextjs-registry
-```
-
-安装图标库：
-
-```bash
-npm install @ant-design/icons
-```
-
-安装请求库：
-
-```bash
-npm install axios
-```
-
-安装图表库：
-
-```bash
-npm install echarts echarts-for-react
-```
-
-当前前端主要依赖说明：
-
-```txt
-antd                         UI 组件库
-@ant-design/nextjs-registry  Ant Design 适配 Next.js App Router
-@ant-design/icons            Ant Design 图标库
-axios                        前端请求后端接口
-echarts                      图表库
-echarts-for-react            React 中使用 ECharts
-```
-
-如果后续需要模型结构流程图，可以安装：
-
-```bash
-npm install reactflow
-```
-
-如果后续需要 3D 展示，可以安装：
-
-```bash
-npm install three @react-three/fiber @react-three/drei
-```
----
-
-## 5. 页面组件说明
+## 4. 页面组件说明
 
 当前 `/main` 页面建议只负责整体布局，具体功能拆分到组件中。
 
@@ -207,9 +129,7 @@ TestPage
 
 ---
 
-## 6. 后端环境准备
-
-### 6.1 创建 Python 环境
+## 5. 后端环境准备
 
 推荐使用 conda：
 
@@ -222,97 +142,7 @@ conda activate web_backend
 
 ---
 
-## 7. 安装后端依赖
-
-基础后端依赖：
-
-```bash
-pip install fastapi uvicorn python-multipart pillow numpy
-```
-
-如果需要 PyTorch 推理：
-
-```bash
-pip install torch torchvision
-```
-
-如果需要读取医学影像文件：
-
-```bash
-pip install nibabel SimpleITK pydicom opencv-python
-```
-
-如果需要读取 `.h5` 文件：
-
-```bash
-pip install h5py
-```
-
-最小依赖：
-
-```txt
-fastapi
-uvicorn
-python-multipart
-pillow
-numpy
-```
-
-完整一点的依赖：
-
-```txt
-fastapi
-uvicorn
-python-multipart
-pillow
-numpy
-torch
-torchvision
-opencv-python
-pydicom
-SimpleITK
-nibabel
-h5py
-```
-
----
-
-## 8. 后端 requirements.txt
-
-创建：
-
-```txt
-requirements.txt
-```
-
-第一版可以写：
-
-```txt
-fastapi
-uvicorn
-python-multipart
-pillow
-numpy
-```
-
-如果要接模型，扩展为：
-
-```txt
-fastapi
-uvicorn
-python-multipart
-pillow
-numpy
-torch
-torchvision
-opencv-python
-pydicom
-SimpleITK
-nibabel
-h5py
-```
-
-安装：
+## 6. 安装后端依赖
 
 ```bash
 pip install -r requirements.txt
