@@ -1,0 +1,28 @@
+{
+  "keyevidence": [
+    {
+      "title": "MRI T1WI",
+      "color": "green",
+      "status": "已提供",
+      "highlight": true
+    },
+    {
+      "title": "MRI T1CE",
+      "color": "green",
+      "status": "已提供",
+      "highlight": true
+    },
+    {
+      "title": "临床病史信息",
+      "color": "orange",
+      "status": "部分缺失",
+      "missing": true
+    },
+    {
+      "title": "MRI DWI",
+      "color": "red",
+      "status": "缺失",
+      "missing": true
+    }
+  ]
+}

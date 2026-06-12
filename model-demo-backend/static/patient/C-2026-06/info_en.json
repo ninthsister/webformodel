@@ -1,0 +1,22 @@
+{
+  "id": "C-2026-06",
+  "name": "ggg",
+  "age": 20,
+  "gender": "Female",
+  "stage": "",
+  "date": "",
+  "modalities": [
+    "MRI"
+  ],
+  "mriSequences": [
+    "T1"
+  ],
+  "clinicalHistoryStatus": "missing",
+  "analysis": {
+    "status": "not_started",
+    "message": "Analysis not started",
+    "started_at": null,
+    "finished_at": null,
+    "result": {}
+  }
+}

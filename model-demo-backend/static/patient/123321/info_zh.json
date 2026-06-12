@@ -1,0 +1,25 @@
+{
+  "id": "123321",
+  "name": "123321",
+  "age": 120,
+  "gender": "女",
+  "stage": "222",
+  "date": "2026-05-06",
+  "modalities": [
+    "MRI",
+    "CT"
+  ],
+  "mriSequences": [
+    "T1",
+    "T1CE",
+    "T2"
+  ],
+  "clinicalHistoryStatus": "partial",
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-05-28 10:14:01",
+    "finished_at": "2026-05-28 10:14:44",
+    "result": {}
+  }
+}

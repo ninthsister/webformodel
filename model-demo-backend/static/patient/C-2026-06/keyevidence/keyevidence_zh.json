@@ -1,0 +1,25 @@
+{
+  "keyevidence": [
+    {
+      "title": "临床病史信息缺失",
+      "color": "red",
+      "status": "缺失",
+      "missing": true
+    },
+    {
+      "title": "MRI T1序列",
+      "color": "green",
+      "status": "已提供"
+    },
+    {
+      "title": "MRI分析中",
+      "color": "blue",
+      "status": "等待分析"
+    },
+    {
+      "title": "其他MRI序列缺失",
+      "color": "orange",
+      "status": "部分缺失"
+    }
+  ]
+}

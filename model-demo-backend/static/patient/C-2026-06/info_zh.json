@@ -1,0 +1,22 @@
+{
+  "id": "C-2026-06",
+  "name": "ggg",
+  "age": 20,
+  "gender": "女",
+  "stage": "",
+  "date": "",
+  "modalities": [
+    "MRI"
+  ],
+  "mriSequences": [
+    "T1"
+  ],
+  "clinicalHistoryStatus": "missing",
+  "analysis": {
+    "status": "completed",
+    "message": "分析完成",
+    "started_at": "2026-06-04 14:22:41",
+    "finished_at": "2026-06-04 14:23:58",
+    "result": {}
+  }
+}

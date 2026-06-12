@@ -1,0 +1,26 @@
+{
+  "keyevidence": [
+    {
+      "title": "MRI T2WI / MRI DWI 缺失",
+      "color": "red",
+      "status": "缺失",
+      "missing": true
+    },
+    {
+      "title": "CT 平扫 / 增强 缺失",
+      "color": "orange",
+      "status": "部分缺失"
+    },
+    {
+      "title": "临床病史信息 部分缺失",
+      "color": "blue",
+      "status": "部分缺失",
+      "missing": true
+    },
+    {
+      "title": "影像分析结果 等待分析",
+      "color": "gray",
+      "status": "等待分析"
+    }
+  ]
+}

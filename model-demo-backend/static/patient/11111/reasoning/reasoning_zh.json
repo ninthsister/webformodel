@@ -3,7 +3,7 @@
     {
       "type": "summary",
       "title": "推理摘要",
-      "content": "当前分析处于进行中，临床病史部分缺失，影像学检查尚未完成，需等待进一步数据以形成明确结论。",
+      "content": "当前分析流程处于进行中，尚未完成全部数据处理与评估。",
       "className": "text-blue-700"
     },
     {
@@ -18,8 +18,8 @@
       "items": [
         {
           "name": "MRI",
-          "status": "已提供",
-          "className": "text-green-600"
+          "status": "等待分析",
+          "className": "text-orange-500"
         },
         {
           "name": "PET/CT",
@@ -28,8 +28,8 @@
         },
         {
           "name": "CT",
-          "status": "已提供",
-          "className": "text-green-600"
+          "status": "等待分析",
+          "className": "text-orange-500"
         },
         {
           "name": "临床病史",
@@ -41,17 +41,16 @@
     {
       "type": "warning",
       "title": "风险提示",
-      "content": "分析尚未完成，当前结论可能因后续数据更新而改变",
+      "content": "当前分析尚未完成，结果可能不准确，建议等待分析完成后再进行结论判定",
       "className": "text-red-600"
     },
     {
       "type": "suggestions",
       "title": "下一步建议",
       "items": [
-        "等待影像学分析完成",
-        "补充完整临床病史信息",
-        "提供缺失的PET/CT检查",
-        "重新评估证据充分性后生成结论"
+        "等待影像分析流程完成",
+        "补充缺失的临床病史信息",
+        "确认PET/CT检查是否需要补充"
       ]
     }
   ]

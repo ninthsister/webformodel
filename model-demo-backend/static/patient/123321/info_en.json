@@ -1,0 +1,25 @@
+{
+  "id": "123321",
+  "name": "123321",
+  "age": 120,
+  "gender": "Female",
+  "stage": "222",
+  "date": "2026-05-06",
+  "modalities": [
+    "MRI",
+    "CT"
+  ],
+  "mriSequences": [
+    "T1",
+    "T1CE",
+    "T2"
+  ],
+  "clinicalHistoryStatus": "partial",
+  "analysis": {
+    "status": "not_started",
+    "message": "Analysis not started",
+    "started_at": null,
+    "finished_at": null,
+    "result": {}
+  }
+}

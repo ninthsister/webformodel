@@ -1,0 +1,58 @@
+{
+  "reasoning": [
+    {
+      "type": "summary",
+      "title": "推理摘要",
+      "content": "当前分析正在进行中，部分证据尚未完善，建议补充临床病史及缺失的影像学检查以完善术前评估。",
+      "className": "text-blue-700"
+    },
+    {
+      "type": "conclusion",
+      "title": "评估结论",
+      "content": "不能形成明确术前结论",
+      "className": "text-red-600"
+    },
+    {
+      "type": "evidence",
+      "title": "证据充分性检查",
+      "items": [
+        {
+          "name": "MRI",
+          "status": "已提供",
+          "className": "text-green-600"
+        },
+        {
+          "name": "PET/CT",
+          "status": "缺失",
+          "className": "text-red-500"
+        },
+        {
+          "name": "CT",
+          "status": "已提供",
+          "className": "text-green-600"
+        },
+        {
+          "name": "临床病史",
+          "status": "部分缺失",
+          "className": "text-orange-500"
+        }
+      ]
+    },
+    {
+      "type": "warning",
+      "title": "风险提示",
+      "content": "临床病史部分缺失，可能影响术前评估准确性",
+      "className": "text-red-600"
+    },
+    {
+      "type": "suggestions",
+      "title": "下一步建议",
+      "items": [
+        "补充完整临床病史信息",
+        "等待当前分析完成",
+        "补充缺失的PET/CT检查",
+        "完善影像学序列覆盖范围"
+      ]
+    }
+  ]
+}
