@@ -1,0 +1,34 @@
+{
+  "assessment": [
+    {
+      "title": "Pelvic lymph node metastasis",
+      "riskText": "High risk",
+      "riskColor": "red",
+      "percent": 83,
+      "strokeColor": "#ef4444",
+      "railColor": "#fee2e2",
+      "borderClassName": "border-red-200",
+      "bgClassName": "bg-red-50",
+      "evidenceSufficiency": "Sufficient",
+      "evidenceClassName": "text-green-600",
+      "modelConsistency": "High",
+      "positiveSliceRatio": "60 / 60",
+      "keyFinding": "Pelvic lymph node metastasis: positive."
+    },
+    {
+      "title": "Parametrial invasion",
+      "riskText": "Low risk",
+      "riskColor": "green",
+      "percent": 23,
+      "strokeColor": "#22c55e",
+      "railColor": "#dcfce7",
+      "borderClassName": "border-green-200",
+      "bgClassName": "bg-green-50",
+      "evidenceSufficiency": "Insufficient",
+      "evidenceClassName": "text-red-500",
+      "modelConsistency": "Low",
+      "positiveSliceRatio": "20 / 60",
+      "keyFinding": "Parametrial invasion: negative."
+    }
+  ]
+}

@@ -1,27 +1,35 @@
 {
   "keyevidence": [
     {
-      "title": "MRI T1WI",
+      "title": "MRI T1 已提供",
       "color": "green",
       "status": "已提供",
       "highlight": true
     },
     {
-      "title": "MRI T1CE",
+      "title": "MRI T2WI 已提供",
       "color": "green",
       "status": "已提供",
       "highlight": true
     },
     {
-      "title": "临床病史信息",
-      "color": "orange",
-      "status": "部分缺失",
-      "missing": true
+      "title": "MRI T1CE 已提供",
+      "color": "green",
+      "status": "已提供",
+      "highlight": true
     },
     {
-      "title": "MRI DWI",
+      "title": "盆腔淋巴结转移：阳性，风险分数 83%",
       "color": "red",
-      "status": "缺失",
+      "status": "可信",
+      "highlight": true,
+      "missing": false
+    },
+    {
+      "title": "宫旁浸润：阴性，风险分数 23%",
+      "color": "green",
+      "status": "证据不足",
+      "highlight": false,
       "missing": true
     }
   ]

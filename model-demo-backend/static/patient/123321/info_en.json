@@ -6,8 +6,7 @@
   "stage": "222",
   "date": "2026-05-06",
   "modalities": [
-    "MRI",
-    "CT"
+    "MRI"
   ],
   "mriSequences": [
     "T1",
@@ -16,10 +15,10 @@
   ],
   "clinicalHistoryStatus": "partial",
   "analysis": {
-    "status": "not_started",
-    "message": "Analysis not started",
-    "started_at": null,
-    "finished_at": null,
+    "status": "completed",
+    "message": "Analysis completed",
+    "started_at": "2026-06-15 16:24:01",
+    "finished_at": "2026-06-15 16:24:30",
     "result": {}
   }
 }

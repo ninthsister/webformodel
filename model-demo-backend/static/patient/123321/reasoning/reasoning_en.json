@@ -1,0 +1,57 @@
+{
+  "reasoning": [
+    {
+      "type": "summary",
+      "title": "Reasoning summary",
+      "content": "The model assessed pelvic lymph node metastasis and parametrial invasion based on the current input images. The risk score for lymph node metastasis is 83%, and the risk score for parametrial invasion is 23%.",
+      "className": "text-blue-700"
+    },
+    {
+      "type": "conclusion",
+      "title": "Assessment conclusion",
+      "content": "Current evidence is insufficient to form a definite preoperative conclusion.",
+      "className": "text-orange-600"
+    },
+    {
+      "type": "evidence",
+      "title": "Evidence sufficiency check",
+      "items": [
+        {
+          "name": "MRI",
+          "status": "Provided",
+          "className": "text-green-600"
+        },
+        {
+          "name": "PET/CT",
+          "status": "Missing",
+          "className": "text-red-500"
+        },
+        {
+          "name": "CT",
+          "status": "Missing",
+          "className": "text-red-500"
+        },
+        {
+          "name": "Clinical history",
+          "status": "Partially missing",
+          "className": "text-orange-500"
+        }
+      ]
+    },
+    {
+      "type": "warning",
+      "title": "Risk warning",
+      "content": "The model indicates insufficient evidence and a risk of misclassification; additional imaging data are recommended before comprehensive assessment.",
+      "className": "text-red-600"
+    },
+    {
+      "type": "suggestions",
+      "title": "Next-step suggestions",
+      "items": [
+        "Supplement missing imaging sequences or clinical history",
+        "Wait for the complete imaging analysis workflow to finish",
+        "Consider MDT discussion when necessary"
+      ]
+    }
+  ]
+}

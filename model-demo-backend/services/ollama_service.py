@@ -667,22 +667,74 @@ async def generate_all_patient_outputs_with_ollama(
     language: Optional[str] = "zh",
     model: Optional[str] = None,
 ) -> dict:
-    """一次生成评估、证据状态/推理、AI 报告草稿、关键证据、模型原始结果五个模块。"""
+    """
+    一次生成中英文两套结果。
+
+    会生成：
+
+      result_raw/result_raw_zh.json
+      result_raw/result_raw_en.json
+
+      assessment/assessment_zh.json
+      assessment/assessment_en.json
+
+      reasoning/reasoning_zh.json
+      reasoning/reasoning_en.json
+
+      aireportdraft/aireportdraft_zh.json
+      aireportdraft/aireportdraft_en.json
+
+      keyevidence/keyevidence_zh.json
+      keyevidence/keyevidence_en.json
+
+    注意：
+      模型服务只调用一次。
+      英文 result_raw 直接复制中文 result_raw。
+      前端四个模块由 result_raw_processor 根据 zh/en 分别生成。
+    """
     lang = normalize_language(language)
 
-    result_raw = await generate_result_raw_with_model_and_save(patient_id, lang, model)
-
-    # assessment = await generate_assessment_with_ollama_and_save(patient_id, lang, model)
-    # reasoning = await generate_reasoning_with_ollama_and_save(patient_id, lang, model)
-    # aireportdraft = await generate_aireportdraft_with_ollama_and_save(patient_id, lang, model)
-    # keyevidence = await generate_keyevidence_with_ollama_and_save(patient_id, lang, model)
-    generated = save_patient_outputs_from_result_raw(
+    # 1. 模型只调用一次，先生成中文 result_raw
+    result_raw_zh = await generate_result_raw_with_model_and_save(
         patient_id=patient_id,
-        result_raw=result_raw,
-        language=lang,
+        language="zh",
+        model=model,
     )
-    
+
+    # 2. result_raw 是原始模型结果，不需要重复调用模型，直接保存一份 en
+    result_raw_en = _save_json(
+        _localized_file(patient_id, "result_raw", "result_raw", "en"),
+        result_raw_zh,
+    )
+
+    # 3. 根据同一个 result_raw 生成中文前端模块
+    generated_zh = save_patient_outputs_from_result_raw(
+        patient_id=patient_id,
+        result_raw=result_raw_zh,
+        language="zh",
+    )
+
+    # 4. 根据同一个 result_raw 生成英文前端模块
+    generated_en = save_patient_outputs_from_result_raw(
+        patient_id=patient_id,
+        result_raw=result_raw_en,
+        language="en",
+    )
+
+    current_result_raw = result_raw_en if lang == "en" else result_raw_zh
+    current_generated = generated_en if lang == "en" else generated_zh
+
     return {
-        "result_raw": result_raw,
-        **generated,
+        "result_raw": current_result_raw,
+        **current_generated,
+        "all_languages": {
+            "zh": {
+                "result_raw": result_raw_zh,
+                **generated_zh,
+            },
+            "en": {
+                "result_raw": result_raw_en,
+                **generated_en,
+            },
+        },
     }

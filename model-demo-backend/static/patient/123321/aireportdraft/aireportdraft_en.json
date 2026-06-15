@@ -1,0 +1,19 @@
+{
+  "aireportdraft": [
+    {
+      "title": "Pelvic lymph node assessment:",
+      "content": "The AI model estimated the risk score for pelvic lymph node metastasis as 83%. Pelvic lymph node metastasis: positive.",
+      "titleClassName": "text-red-500"
+    },
+    {
+      "title": "Parametrial invasion assessment:",
+      "content": "The AI model estimated the risk score for parametrial invasion as 23%. Parametrial invasion: negative.",
+      "titleClassName": "text-green-600"
+    },
+    {
+      "title": "Final recommendation:",
+      "content": "The model indicates insufficient evidence. Complete imaging data and clinical history should be supplemented before re-analysis. When evidence is insufficient, a definitive preoperative conclusion should not be made based only on the AI result.",
+      "titleClassName": "text-blue-600"
+    }
+  ]
+}

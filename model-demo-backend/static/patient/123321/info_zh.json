@@ -6,8 +6,7 @@
   "stage": "222",
   "date": "2026-05-06",
   "modalities": [
-    "MRI",
-    "CT"
+    "MRI"
   ],
   "mriSequences": [
     "T1",
@@ -18,8 +17,8 @@
   "analysis": {
     "status": "completed",
     "message": "分析完成",
-    "started_at": "2026-05-28 10:14:01",
-    "finished_at": "2026-05-28 10:14:44",
+    "started_at": "2026-06-15 16:24:01",
+    "finished_at": "2026-06-15 16:24:30",
     "result": {}
   }
 }

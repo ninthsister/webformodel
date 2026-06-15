@@ -1,0 +1,36 @@
+{
+  "keyevidence": [
+    {
+      "title": "MRI T1 provided",
+      "color": "green",
+      "status": "Provided",
+      "highlight": true
+    },
+    {
+      "title": "MRI T2WI provided",
+      "color": "green",
+      "status": "Provided",
+      "highlight": true
+    },
+    {
+      "title": "MRI T1CE provided",
+      "color": "green",
+      "status": "Provided",
+      "highlight": true
+    },
+    {
+      "title": "Pelvic lymph node metastasis: Positive, risk score 83%",
+      "color": "red",
+      "status": "Trusted",
+      "highlight": true,
+      "missing": false
+    },
+    {
+      "title": "Parametrial invasion: Negative, risk score 23%",
+      "color": "green",
+      "status": "Insufficient evidence",
+      "highlight": false,
+      "missing": true
+    }
+  ]
+}

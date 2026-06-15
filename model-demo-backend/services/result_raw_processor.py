@@ -14,7 +14,7 @@ def _localized_file(patient_id: str, folder: str, stem: str, lang: str) -> Path:
 
     例如：
       static/patient/11111/assessment/assessment_zh.json
-      static/patient/11111/reasoning/reasoning_zh.json
+      static/patient/11111/assessment/assessment_en.json
     """
     return PATIENT_ROOT / patient_id / folder / f"{stem}_{lang}.json"
 
@@ -32,11 +32,7 @@ def read_patient_info_from_file(patient_id: str, language: Optional[str] = "zh")
     """
     读取当前病人的 info_{lang}.json。
 
-    优先读取：
-      static/patient/{patient_id}/info_zh.json
-
-    如果当前语言文件不存在，兜底读取：
-      static/patient/{patient_id}/info_zh.json
+    如果 info_en.json 不存在，会兜底读取 info_zh.json。
     """
     lang = normalize_language(language)
 
@@ -88,15 +84,34 @@ def _percent(score: Optional[float]) -> int:
         return 0
 
 
-def _simple_diag_text(diagnosis: Optional[str]) -> str:
+def _is_en(lang: Optional[str]) -> bool:
+    return normalize_language(lang) == "en"
+
+
+def _txt(lang: Optional[str], zh: str, en: str) -> str:
+    return en if _is_en(lang) else zh
+
+
+def _simple_diag_text(diagnosis: Optional[str], lang: Optional[str] = "zh") -> str:
     if diagnosis == "positive":
-        return "阳性"
+        return _txt(lang, "阳性", "Positive")
     if diagnosis == "negative":
-        return "阴性"
-    return "不确定"
+        return _txt(lang, "阴性", "Negative")
+    return _txt(lang, "不确定", "Indeterminate")
 
 
-def _diagnosis_text(task_name: str, diagnosis: Optional[str]) -> str:
+def _diagnosis_text(
+    task_name: str,
+    diagnosis: Optional[str],
+    lang: Optional[str] = "zh",
+) -> str:
+    if _is_en(lang):
+        if diagnosis == "positive":
+            return f"{task_name}: positive."
+        if diagnosis == "negative":
+            return f"{task_name}: negative."
+        return f"{task_name}: indeterminate."
+
     if diagnosis == "positive":
         return f"{task_name}阳性"
     if diagnosis == "negative":
@@ -104,7 +119,10 @@ def _diagnosis_text(task_name: str, diagnosis: Optional[str]) -> str:
     return f"{task_name}结果不确定"
 
 
-def _risk_style_from_score(score: Optional[float]) -> dict:
+def _risk_style_from_score(
+    score: Optional[float],
+    lang: Optional[str] = "zh",
+) -> dict:
     """
     根据 avg_cls_score 生成前端风险样式。
 
@@ -115,7 +133,7 @@ def _risk_style_from_score(score: Optional[float]) -> dict:
     """
     if score is None:
         return {
-            "riskText": "未知风险",
+            "riskText": _txt(lang, "未知风险", "Unknown risk"),
             "riskColor": "gray",
             "strokeColor": "#64748b",
             "railColor": "#e2e8f0",
@@ -131,7 +149,7 @@ def _risk_style_from_score(score: Optional[float]) -> dict:
 
     if score >= 0.6:
         return {
-            "riskText": "高风险",
+            "riskText": _txt(lang, "高风险", "High risk"),
             "riskColor": "red",
             "strokeColor": "#ef4444",
             "railColor": "#fee2e2",
@@ -142,7 +160,7 @@ def _risk_style_from_score(score: Optional[float]) -> dict:
 
     if score >= 0.25:
         return {
-            "riskText": "中等风险",
+            "riskText": _txt(lang, "中等风险", "Intermediate risk"),
             "riskColor": "orange",
             "strokeColor": "#f59e0b",
             "railColor": "#ffedd5",
@@ -152,7 +170,7 @@ def _risk_style_from_score(score: Optional[float]) -> dict:
         }
 
     return {
-        "riskText": "低风险",
+        "riskText": _txt(lang, "低风险", "Low risk"),
         "riskColor": "green",
         "strokeColor": "#22c55e",
         "railColor": "#dcfce7",
@@ -162,21 +180,24 @@ def _risk_style_from_score(score: Optional[float]) -> dict:
     }
 
 
-def _evidence_style_from_trust(trust: bool) -> dict:
+def _evidence_style_from_trust(
+    trust: bool,
+    lang: Optional[str] = "zh",
+) -> dict:
     """
     模型 trust 字段 -> 前端证据充分性字段。
     """
     if trust:
         return {
-            "evidenceSufficiency": "较充分",
+            "evidenceSufficiency": _txt(lang, "较充分", "Sufficient"),
             "evidenceClassName": "text-green-600",
-            "modelConsistency": "高",
+            "modelConsistency": _txt(lang, "高", "High"),
         }
 
     return {
-        "evidenceSufficiency": "不足",
+        "evidenceSufficiency": _txt(lang, "不足", "Insufficient"),
         "evidenceClassName": "text-red-500",
-        "modelConsistency": "低",
+        "modelConsistency": _txt(lang, "低", "Low"),
     }
 
 
@@ -186,8 +207,8 @@ def _slice_ratio(task_raw: dict) -> str:
 
     当前模型返回：
       n_slices
-      per_modal.t2.vote
-      per_modal.t2.n
+      per_modal.xxx.vote
+      per_modal.xxx.n
 
     如果没有逐 slice 阳性数量，就用 vote * n 近似。
     """
@@ -225,25 +246,17 @@ def _normalize_set(values: Any) -> set:
     }
 
 
-def build_evidence_items_from_patient_info(patient_info: dict) -> list:
+def build_evidence_items_from_patient_info(
+    patient_info: dict,
+    lang: Optional[str] = "zh",
+) -> list:
     """
-    根据当前病人的 info_zh.json 生成 reasoning 里的“证据充分性检查”。
+    根据当前病人的 info_{lang}.json 生成 reasoning 里的“证据充分性检查”。
 
     使用字段：
       modalities
       mriSequences
       clinicalHistoryStatus
-
-    示例：
-      modalities: ["MRI", "CT"]
-      mriSequences: ["T1"]
-      clinicalHistoryStatus: "partial"
-
-    生成：
-      MRI 已提供
-      PET/CT 缺失
-      CT 已提供
-      临床病史 部分缺失
     """
     if not isinstance(patient_info, dict):
         patient_info = {}
@@ -273,13 +286,13 @@ def build_evidence_items_from_patient_info(patient_info: dict) -> list:
         if provided:
             return {
                 "name": name,
-                "status": "已提供",
+                "status": _txt(lang, "已提供", "Provided"),
                 "className": "text-green-600",
             }
 
         return {
             "name": name,
-            "status": "缺失",
+            "status": _txt(lang, "缺失", "Missing"),
             "className": "text-red-500",
         }
 
@@ -296,8 +309,8 @@ def build_evidence_items_from_patient_info(patient_info: dict) -> list:
         "充分",
     }:
         clinical_item = {
-            "name": "临床病史",
-            "status": "已提供",
+            "name": _txt(lang, "临床病史", "Clinical history"),
+            "status": _txt(lang, "已提供", "Provided"),
             "className": "text-green-600",
         }
     elif clinical_status_norm in {
@@ -309,14 +322,14 @@ def build_evidence_items_from_patient_info(patient_info: dict) -> list:
         "不完整",
     }:
         clinical_item = {
-            "name": "临床病史",
-            "status": "部分缺失",
+            "name": _txt(lang, "临床病史", "Clinical history"),
+            "status": _txt(lang, "部分缺失", "Partially missing"),
             "className": "text-orange-500",
         }
     else:
         clinical_item = {
-            "name": "临床病史",
-            "status": "缺失",
+            "name": _txt(lang, "临床病史", "Clinical history"),
+            "status": _txt(lang, "缺失", "Missing"),
             "className": "text-red-500",
         }
 
@@ -328,10 +341,41 @@ def build_evidence_items_from_patient_info(patient_info: dict) -> list:
     ]
 
 
-def build_assessment_from_result_raw(result_raw: dict) -> dict:
+def _safe_model_text(
+    task_name_zh: str,
+    task_name_en: str,
+    task_raw: dict,
+    lang: Optional[str] = "zh",
+) -> str:
     """
-    从 result_raw 生成 assessment_zh.json。
+    中文：优先使用模型返回的 recommendation_text。
+    英文：不直接使用中文 recommendation_text，而是根据 diagnosis 生成英文文本。
     """
+    if not isinstance(task_raw, dict):
+        task_raw = {}
+
+    if not _is_en(lang):
+        return task_raw.get("recommendation_text") or _diagnosis_text(
+            task_name_zh,
+            task_raw.get("diagnosis"),
+            lang,
+        )
+
+    return _diagnosis_text(
+        task_name_en,
+        task_raw.get("diagnosis"),
+        lang,
+    )
+
+
+def build_assessment_from_result_raw(
+    result_raw: dict,
+    lang: Optional[str] = "zh",
+) -> dict:
+    """
+    从 result_raw 生成 assessment_{lang}.json。
+    """
+    lang = normalize_language(lang)
     raw = _unwrap_result_raw(result_raw)
 
     lymph = raw.get("lymph") or {}
@@ -340,16 +384,20 @@ def build_assessment_from_result_raw(result_raw: dict) -> dict:
     lymph_score = lymph.get("avg_cls_score")
     para_score = para.get("avg_cls_score")
 
-    lymph_risk = _risk_style_from_score(lymph_score)
-    para_risk = _risk_style_from_score(para_score)
+    lymph_risk = _risk_style_from_score(lymph_score, lang)
+    para_risk = _risk_style_from_score(para_score, lang)
 
-    lymph_evidence = _evidence_style_from_trust(bool(lymph.get("trust")))
-    para_evidence = _evidence_style_from_trust(bool(para.get("trust")))
+    lymph_evidence = _evidence_style_from_trust(bool(lymph.get("trust")), lang)
+    para_evidence = _evidence_style_from_trust(bool(para.get("trust")), lang)
 
     return {
         "assessment": [
             {
-                "title": "盆腔淋巴结转移",
+                "title": _txt(
+                    lang,
+                    "盆腔淋巴结转移",
+                    "Pelvic lymph node metastasis",
+                ),
                 "riskText": lymph_risk["riskText"],
                 "riskColor": lymph_risk["riskColor"],
                 "percent": _percent(lymph_score),
@@ -361,11 +409,19 @@ def build_assessment_from_result_raw(result_raw: dict) -> dict:
                 "evidenceClassName": lymph_evidence["evidenceClassName"],
                 "modelConsistency": lymph_evidence["modelConsistency"],
                 "positiveSliceRatio": _slice_ratio(lymph),
-                "keyFinding": lymph.get("recommendation_text")
-                or _diagnosis_text("盆腔淋巴结转移", lymph.get("diagnosis")),
+                # "keyFinding": _safe_model_text(
+                #     "盆腔淋巴结转移",
+                #     "Pelvic lymph node metastasis",
+                #     lymph,
+                #     lang,
+                # ),
             },
             {
-                "title": "宫旁浸润",
+                "title": _txt(
+                    lang,
+                    "宫旁浸润",
+                    "Parametrial invasion",
+                ),
                 "riskText": para_risk["riskText"],
                 "riskColor": para_risk["riskColor"],
                 "percent": _percent(para_score),
@@ -377,8 +433,12 @@ def build_assessment_from_result_raw(result_raw: dict) -> dict:
                 "evidenceClassName": para_evidence["evidenceClassName"],
                 "modelConsistency": para_evidence["modelConsistency"],
                 "positiveSliceRatio": _slice_ratio(para),
-                "keyFinding": para.get("recommendation_text")
-                or _diagnosis_text("宫旁浸润", para.get("diagnosis")),
+                # "keyFinding": _safe_model_text(
+                #     "宫旁浸润",
+                #     "Parametrial invasion",
+                #     para,
+                #     lang,
+                # ),
             },
         ]
     }
@@ -387,15 +447,19 @@ def build_assessment_from_result_raw(result_raw: dict) -> dict:
 def build_reasoning_from_result_raw(
     result_raw: dict,
     patient_info: Optional[dict] = None,
+    lang: Optional[str] = "zh",
 ) -> dict:
     """
-    从 result_raw + 当前病人 info_zh.json 生成 reasoning_zh.json。
+    从 result_raw + 当前病人 info_{lang}.json 生成 reasoning_{lang}.json。
 
-    其中“证据充分性检查”来自 patient_info：
-      modalities
-      mriSequences
-      clinicalHistoryStatus
+    修改点：
+    - 不再生成统一的“下一步建议”
+    - 改成两个 suggestions：
+      1. 淋巴结建议
+      2. 宫旁建议
+    - 建议内容直接使用 result_raw 中的 recommendation_text
     """
+    lang = normalize_language(lang)
     raw = _unwrap_result_raw(result_raw)
 
     lymph = raw.get("lymph") or {}
@@ -410,13 +474,37 @@ def build_reasoning_from_result_raw(
     lymph_score = lymph.get("avg_cls_score")
     para_score = para.get("avg_cls_score")
 
-    evidence_items = build_evidence_items_from_patient_info(patient_info or {})
+    evidence_items = build_evidence_items_from_patient_info(
+        patient_info or {},
+        lang,
+    )
+
+    # 直接使用模型返回的 recommendation_text
+    lymph_advice = lymph.get("recommendation_text") or _txt(
+        lang,
+        "暂无淋巴结转移相关建议。",
+        "No lymph node metastasis recommendation is available.",
+    )
+
+    para_advice = para.get("recommendation_text") or _txt(
+        lang,
+        "暂无宫旁浸润相关建议。",
+        "No parametrial invasion recommendation is available.",
+    )
 
     if sufficient:
-        conclusion = (
-            "模型已完成可信判定："
-            f"盆腔淋巴结转移{_simple_diag_text(lymph_diag)}；"
-            f"宫旁浸润{_simple_diag_text(para_diag)}。"
+        conclusion = _txt(
+            lang,
+            (
+                "模型已完成可信判定："
+                f"盆腔淋巴结转移{_simple_diag_text(lymph_diag, lang)}；"
+                f"宫旁浸润{_simple_diag_text(para_diag, lang)}。"
+            ),
+            (
+                "The model has completed a trusted assessment: "
+                f"pelvic lymph node metastasis is {_simple_diag_text(lymph_diag, lang).lower()}; "
+                f"parametrial invasion is {_simple_diag_text(para_diag, lang).lower()}."
+            ),
         )
 
         conclusion_class = (
@@ -425,72 +513,92 @@ def build_reasoning_from_result_raw(
             else "text-green-600"
         )
 
-        warning = (
-            "当前模型结果可信，但仍建议结合完整影像序列、临床资料和医生复核后形成最终术前结论。"
+        warning = _txt(
+            lang,
+            "当前模型结果可信，但仍建议结合完整影像序列、临床资料和医生复核后形成最终术前结论。",
+            "The model output is considered reliable, but the final preoperative conclusion should still be made together with complete imaging, clinical history, and physician review.",
         )
-
-        suggestions = [
-            "结合医生阅片结果复核 AI 判断",
-            "将模型输出作为术前辅助评估依据",
-            "如临床表现与模型结果不一致，建议补充多模态影像或 MDT 讨论",
-        ]
 
     else:
-        conclusion = "当前证据不足，不能形成明确术前结论。"
-        conclusion_class = "text-orange-600"
-
-        warning = (
-            "模型提示当前证据不足，存在误判风险，建议补充影像资料后再进行综合判断。"
+        conclusion = _txt(
+            lang,
+            "当前证据不足，不能形成明确术前结论。",
+            "Current evidence is insufficient to form a definite preoperative conclusion.",
         )
 
-        suggestions = [
-            "补充缺失的影像序列或临床病史",
-            "等待完整影像分析流程完成",
-            "必要时进行 MDT 多学科讨论",
-        ]
+        conclusion_class = "text-orange-600"
+
+        warning = _txt(
+            lang,
+            "模型提示当前证据不足，存在误判风险，建议补充影像资料后再进行综合判断。",
+            "The model indicates insufficient evidence and a risk of misclassification; additional imaging data are recommended before comprehensive assessment.",
+        )
+
+    summary_content = _txt(
+        lang,
+        (
+            "模型基于当前输入图像完成盆腔淋巴结转移与宫旁浸润两项任务评估。"
+            f"淋巴结转移风险分数为 {_percent(lymph_score)}%，"
+            f"宫旁浸润风险分数为 {_percent(para_score)}%。"
+        ),
+        (
+            "The model assessed pelvic lymph node metastasis and parametrial invasion based on the current input images. "
+            f"The risk score for lymph node metastasis is {_percent(lymph_score)}%, "
+            f"and the risk score for parametrial invasion is {_percent(para_score)}%."
+        ),
+    )
 
     return {
         "reasoning": [
             {
                 "type": "summary",
-                "title": "推理摘要",
-                "content": (
-                    "模型基于当前输入图像完成盆腔淋巴结转移与宫旁浸润两项任务评估。"
-                    f"淋巴结转移风险分数为 {_percent(lymph_score)}%，"
-                    f"宫旁浸润风险分数为 {_percent(para_score)}%。"
-                ),
+                "title": _txt(lang, "推理摘要", "Reasoning summary"),
+                "content": summary_content,
                 "className": "text-blue-700",
             },
             {
                 "type": "conclusion",
-                "title": "评估结论",
+                "title": _txt(lang, "评估结论", "Assessment conclusion"),
                 "content": conclusion,
                 "className": conclusion_class,
             },
             {
                 "type": "evidence",
-                "title": "证据充分性检查",
+                "title": _txt(lang, "证据充分性检查", "Evidence sufficiency check"),
                 "items": evidence_items,
             },
             {
                 "type": "warning",
-                "title": "风险提示",
+                "title": _txt(lang, "风险提示", "Risk warning"),
                 "content": warning,
                 "className": "text-red-600",
             },
             {
                 "type": "suggestions",
-                "title": "下一步建议",
-                "items": suggestions,
+                "title": _txt(lang, "淋巴结建议", "Lymph node recommendation"),
+                "items": [
+                    lymph_advice,
+                ],
+            },
+            {
+                "type": "suggestions",
+                "title": _txt(lang, "宫旁建议", "Parametrial recommendation"),
+                "items": [
+                    para_advice,
+                ],
             },
         ]
     }
 
 
-def build_aireportdraft_from_result_raw(result_raw: dict) -> dict:
+def build_aireportdraft_from_result_raw(
+    result_raw: dict,
+    lang: Optional[str] = "zh",
+) -> dict:
     """
-    从 result_raw 生成 aireportdraft_zh.json。
+    从 result_raw 生成 aireportdraft_{lang}.json。
     """
+    lang = normalize_language(lang)
     raw = _unwrap_result_raw(result_raw)
 
     lymph = raw.get("lymph") or {}
@@ -499,48 +607,91 @@ def build_aireportdraft_from_result_raw(result_raw: dict) -> dict:
     lymph_score = lymph.get("avg_cls_score")
     para_score = para.get("avg_cls_score")
 
-    lymph_risk = _risk_style_from_score(lymph_score)
-    para_risk = _risk_style_from_score(para_score)
+    lymph_risk = _risk_style_from_score(lymph_score, lang)
+    para_risk = _risk_style_from_score(para_score, lang)
 
-    lymph_text = lymph.get("recommendation_text") or _diagnosis_text(
-        "盆腔淋巴结转移", lymph.get("diagnosis")
+    lymph_text = _safe_model_text(
+        "盆腔淋巴结转移",
+        "Pelvic lymph node metastasis",
+        lymph,
+        lang,
     )
 
-    para_text = para.get("recommendation_text") or _diagnosis_text(
-        "宫旁浸润", para.get("diagnosis")
+    para_text = _safe_model_text(
+        "宫旁浸润",
+        "Parametrial invasion",
+        para,
+        lang,
     )
 
     if raw.get("evidence_status") == "sufficient":
-        suggestion = (
-            "当前模型提示影像证据较充分，可将上述 AI 结果作为术前辅助评估参考。"
-            "最终诊疗决策仍需结合医生阅片、临床病史、实验室检查及 MDT 讨论综合判断。"
+        suggestion = _txt(
+            lang,
+            (
+                "当前模型提示影像证据较充分，可将上述 AI 结果作为术前辅助评估参考。"
+                "最终诊疗决策仍需结合医生阅片、临床病史、实验室检查及 MDT 讨论综合判断。"
+            ),
+            (
+                "The model indicates that the imaging evidence is relatively sufficient. "
+                "The above AI results may be used as auxiliary preoperative assessment references. "
+                "Final clinical decisions should still be made together with physician review, clinical history, laboratory findings, and MDT discussion."
+            ),
         )
     else:
-        suggestion = (
-            "当前模型提示证据不足，建议补充完整影像资料和临床病史后再次分析。"
-            "在证据不足情况下，不建议仅凭 AI 结果形成确定性术前结论。"
+        suggestion = _txt(
+            lang,
+            (
+                "当前模型提示证据不足，建议补充完整影像资料和临床病史后再次分析。"
+                "在证据不足情况下，不建议仅凭 AI 结果形成确定性术前结论。"
+            ),
+            (
+                "The model indicates insufficient evidence. Complete imaging data and clinical history should be supplemented before re-analysis. "
+                "When evidence is insufficient, a definitive preoperative conclusion should not be made based only on the AI result."
+            ),
         )
 
     return {
         "aireportdraft": [
             {
-                "title": "盆腔淋巴结评估：",
-                "content": (
-                    f"AI 模型评估盆腔淋巴结转移风险分数为 {_percent(lymph_score)}%。"
-                    f"{lymph_text}"
+                "title": _txt(
+                    lang,
+                    "盆腔淋巴结评估：",
+                    "Pelvic lymph node assessment:",
+                ),
+                "content": _txt(
+                    lang,
+                    (
+                        f"AI 模型评估盆腔淋巴结转移风险分数为 {_percent(lymph_score)}%。"
+                        f"{lymph_text}"
+                    ),
+                    (
+                        f"The AI model estimated the risk score for pelvic lymph node metastasis as {_percent(lymph_score)}%. "
+                        f"{lymph_text}"
+                    ),
                 ),
                 "titleClassName": lymph_risk["titleClassName"],
             },
             {
-                "title": "宫旁浸润评估：",
-                "content": (
-                    f"AI 模型评估宫旁浸润风险分数为 {_percent(para_score)}%。"
-                    f"{para_text}"
+                "title": _txt(
+                    lang,
+                    "宫旁浸润评估：",
+                    "Parametrial invasion assessment:",
+                ),
+                "content": _txt(
+                    lang,
+                    (
+                        f"AI 模型评估宫旁浸润风险分数为 {_percent(para_score)}%。"
+                        f"{para_text}"
+                    ),
+                    (
+                        f"The AI model estimated the risk score for parametrial invasion as {_percent(para_score)}%. "
+                        f"{para_text}"
+                    ),
                 ),
                 "titleClassName": para_risk["titleClassName"],
             },
             {
-                "title": "最终建议：",
+                "title": _txt(lang, "最终建议：", "Final recommendation:"),
                 "content": suggestion,
                 "titleClassName": "text-blue-600",
             },
@@ -551,13 +702,12 @@ def build_aireportdraft_from_result_raw(result_raw: dict) -> dict:
 def build_keyevidence_from_result_raw(
     result_raw: dict,
     patient_info: Optional[dict] = None,
+    lang: Optional[str] = "zh",
 ) -> dict:
     """
-    从 result_raw + info_zh.json 生成 keyevidence_zh.json。
-
-    这里会根据当前病人的 MRI 序列显示：
-      MRI T1 已提供 / MRI T2WI 缺失 / MRI DWI 缺失 等。
+    从 result_raw + info_{lang}.json 生成 keyevidence_{lang}.json。
     """
+    lang = normalize_language(lang)
     raw = _unwrap_result_raw(result_raw)
 
     lymph = raw.get("lymph") or {}
@@ -578,58 +728,53 @@ def build_keyevidence_from_result_raw(
 
     key_items = []
 
-    # MRI 序列证据项
-    if "t1" in mri_sequences_norm:
-        key_items.append({
-            "title": "MRI T1 已提供",
-            "color": "green",
-            "status": "已提供",
-            "highlight": True,
-        })
-    else:
-        key_items.append({
-            "title": "MRI T1 缺失",
-            "color": "red",
-            "status": "缺失",
-            "missing": True,
-        })
+    def add_mri_item(seq_key: str, title_zh: str, title_en: str):
+        if seq_key in mri_sequences_norm:
+            key_items.append({
+                "title": _txt(lang, f"{title_zh} 已提供", f"{title_en} provided"),
+                "color": "green",
+                "status": _txt(lang, "已提供", "Provided"),
+                "highlight": True,
+            })
+        else:
+            key_items.append({
+                "title": _txt(lang, f"{title_zh} 缺失", f"{title_en} missing"),
+                "color": "red",
+                "status": _txt(lang, "缺失", "Missing"),
+                "missing": True,
+            })
+
+    add_mri_item("t1", "MRI T1", "MRI T1")
 
     if "t2" in mri_sequences_norm or "t2wi" in mri_sequences_norm:
         key_items.append({
-            "title": "MRI T2WI 已提供",
+            "title": _txt(lang, "MRI T2WI 已提供", "MRI T2WI provided"),
             "color": "green",
-            "status": "已提供",
+            "status": _txt(lang, "已提供", "Provided"),
             "highlight": True,
         })
     else:
         key_items.append({
-            "title": "MRI T2WI 缺失",
+            "title": _txt(lang, "MRI T2WI 缺失", "MRI T2WI missing"),
             "color": "red",
-            "status": "缺失",
+            "status": _txt(lang, "缺失", "Missing"),
             "missing": True,
         })
 
-    if "dwi" in mri_sequences_norm:
-        key_items.append({
-            "title": "MRI DWI 已提供",
-            "color": "green",
-            "status": "已提供",
-            "highlight": True,
-        })
-    else:
-        key_items.append({
-            "title": "MRI DWI 缺失",
-            "color": "red",
-            "status": "缺失",
-            "missing": True,
-        })
+    add_mri_item("t1ce", "MRI T1CE", "MRI T1CE")
 
-    # 模型结果证据项
     key_items.extend([
         {
-            "title": (
-                f"盆腔淋巴结转移：{_simple_diag_text(lymph_diag)}，"
-                f"风险分数 {_percent(lymph_score)}%"
+            "title": _txt(
+                lang,
+                (
+                    f"盆腔淋巴结转移：{_simple_diag_text(lymph_diag, lang)}，"
+                    f"风险分数 {_percent(lymph_score)}%"
+                ),
+                (
+                    f"Pelvic lymph node metastasis: {_simple_diag_text(lymph_diag, lang)}, "
+                    f"risk score {_percent(lymph_score)}%"
+                ),
             ),
             "color": (
                 "red"
@@ -638,14 +783,21 @@ def build_keyevidence_from_result_raw(
                 if lymph_diag == "negative"
                 else "orange"
             ),
-            "status": "可信" if lymph_trust else "证据不足",
+            "status": _txt(lang, "可信", "Trusted") if lymph_trust else _txt(lang, "证据不足", "Insufficient evidence"),
             "highlight": lymph_trust,
             "missing": not lymph_trust,
         },
         {
-            "title": (
-                f"宫旁浸润：{_simple_diag_text(para_diag)}，"
-                f"风险分数 {_percent(para_score)}%"
+            "title": _txt(
+                lang,
+                (
+                    f"宫旁浸润：{_simple_diag_text(para_diag, lang)}，"
+                    f"风险分数 {_percent(para_score)}%"
+                ),
+                (
+                    f"Parametrial invasion: {_simple_diag_text(para_diag, lang)}, "
+                    f"risk score {_percent(para_score)}%"
+                ),
             ),
             "color": (
                 "red"
@@ -654,7 +806,7 @@ def build_keyevidence_from_result_raw(
                 if para_diag == "negative"
                 else "orange"
             ),
-            "status": "可信" if para_trust else "证据不足",
+            "status": _txt(lang, "可信", "Trusted") if para_trust else _txt(lang, "证据不足", "Insufficient evidence"),
             "highlight": para_trust,
             "missing": not para_trust,
         },
@@ -666,15 +818,18 @@ def build_keyevidence_from_result_raw(
 def build_all_outputs_from_result_raw(
     result_raw: dict,
     patient_info: Optional[dict] = None,
+    language: Optional[str] = "zh",
 ) -> dict:
     """
     只构造四个模块，不保存文件。
     """
+    lang = normalize_language(language)
+
     return {
-        "assessment": build_assessment_from_result_raw(result_raw),
-        "reasoning": build_reasoning_from_result_raw(result_raw, patient_info),
-        "aireportdraft": build_aireportdraft_from_result_raw(result_raw),
-        "keyevidence": build_keyevidence_from_result_raw(result_raw, patient_info),
+        "assessment": build_assessment_from_result_raw(result_raw, lang),
+        "reasoning": build_reasoning_from_result_raw(result_raw, patient_info, lang),
+        "aireportdraft": build_aireportdraft_from_result_raw(result_raw, lang),
+        "keyevidence": build_keyevidence_from_result_raw(result_raw, patient_info, lang),
     }
 
 
@@ -688,9 +843,13 @@ def save_patient_outputs_from_result_raw(
 
     保存路径：
       static/patient/{id}/assessment/assessment_zh.json
+      static/patient/{id}/assessment/assessment_en.json
       static/patient/{id}/reasoning/reasoning_zh.json
+      static/patient/{id}/reasoning/reasoning_en.json
       static/patient/{id}/aireportdraft/aireportdraft_zh.json
+      static/patient/{id}/aireportdraft/aireportdraft_en.json
       static/patient/{id}/keyevidence/keyevidence_zh.json
+      static/patient/{id}/keyevidence/keyevidence_en.json
     """
     lang = normalize_language(language)
 
@@ -699,6 +858,7 @@ def save_patient_outputs_from_result_raw(
     generated = build_all_outputs_from_result_raw(
         result_raw=result_raw,
         patient_info=patient_info,
+        language=lang,
     )
 
     assessment = _save_json(

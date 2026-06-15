@@ -3,14 +3,14 @@
     {
       "type": "summary",
       "title": "推理摘要",
-      "content": "当前分析正在进行中，部分证据尚未完善，建议补充临床病史及缺失的影像学检查以完善术前评估。",
+      "content": "模型基于当前输入图像完成盆腔淋巴结转移与宫旁浸润两项任务评估。淋巴结转移风险分数为 83%，宫旁浸润风险分数为 23%。",
       "className": "text-blue-700"
     },
     {
       "type": "conclusion",
       "title": "评估结论",
-      "content": "不能形成明确术前结论",
-      "className": "text-red-600"
+      "content": "当前证据不足，不能形成明确术前结论。",
+      "className": "text-orange-600"
     },
     {
       "type": "evidence",
@@ -28,8 +28,8 @@
         },
         {
           "name": "CT",
-          "status": "已提供",
-          "className": "text-green-600"
+          "status": "缺失",
+          "className": "text-red-500"
         },
         {
           "name": "临床病史",
@@ -41,17 +41,16 @@
     {
       "type": "warning",
       "title": "风险提示",
-      "content": "临床病史部分缺失，可能影响术前评估准确性",
+      "content": "模型提示当前证据不足，存在误判风险，建议补充影像资料后再进行综合判断。",
       "className": "text-red-600"
     },
     {
       "type": "suggestions",
       "title": "下一步建议",
       "items": [
-        "补充完整临床病史信息",
-        "等待当前分析完成",
-        "补充缺失的PET/CT检查",
-        "完善影像学序列覆盖范围"
+        "补充缺失的影像序列或临床病史",
+        "等待完整影像分析流程完成",
+        "必要时进行 MDT 多学科讨论"
       ]
     }
   ]
