@@ -46,7 +46,7 @@ type AssessmentItem = {
   evidenceClassName?: string;
   modelConsistency: string;
   positiveSliceRatio: string;
-  keyFinding: string;
+  keyFinding?: string;
 };
 
 type AssessmentResponse = {
@@ -156,8 +156,9 @@ function AssessmentBlock({ item, language }: { item: AssessmentItem; language?: 
         <Text type="secondary">{zhEn(language, "阳性切片比例", "Positive slice ratio")}</Text>
         <Text>{item.positiveSliceRatio}</Text>
 
-        <Text type="secondary">{zhEn(language, "关键发现", "Key finding")}</Text>
-        <Text>{item.keyFinding}</Text>
+        {/* <Text type="secondary">{zhEn(language, "关键发现", "Key finding")}</Text>
+        <Text>{item.keyFinding}</Text> */}
+        
       </div>
     </div>
   );
