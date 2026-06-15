@@ -1,6 +1,12 @@
 {
   "keyevidence": [
     {
+      "title": "MRI T1 已提供",
+      "color": "green",
+      "status": "已提供",
+      "highlight": true
+    },
+    {
       "title": "MRI T2WI 缺失",
       "color": "red",
       "status": "缺失",
@@ -13,14 +19,17 @@
       "missing": true
     },
     {
-      "title": "CT 已提供",
-      "color": "green",
-      "status": "已提供"
+      "title": "盆腔淋巴结转移：阳性，风险分数 74%",
+      "color": "red",
+      "status": "可信",
+      "highlight": true,
+      "missing": false
     },
     {
-      "title": "临床病史部分缺失",
-      "color": "orange",
-      "status": "部分缺失",
+      "title": "宫旁浸润：阳性，风险分数 41%",
+      "color": "red",
+      "status": "证据不足",
+      "highlight": false,
       "missing": true
     }
   ]

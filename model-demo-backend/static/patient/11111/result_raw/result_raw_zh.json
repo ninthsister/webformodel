@@ -1,0 +1,358 @@
+{
+  "result_raw": {
+    "patient_id": "11111",
+    "num_images": 55,
+    "source_images": [
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_000.png",
+        "filename": "slice_000.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_001.png",
+        "filename": "slice_001.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_002.png",
+        "filename": "slice_002.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_003.png",
+        "filename": "slice_003.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_004.png",
+        "filename": "slice_004.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_005.png",
+        "filename": "slice_005.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_006.png",
+        "filename": "slice_006.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_007.png",
+        "filename": "slice_007.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_008.png",
+        "filename": "slice_008.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_009.png",
+        "filename": "slice_009.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_010.png",
+        "filename": "slice_010.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_011.png",
+        "filename": "slice_011.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_012.png",
+        "filename": "slice_012.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_013.png",
+        "filename": "slice_013.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_014.png",
+        "filename": "slice_014.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_015.png",
+        "filename": "slice_015.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_016.png",
+        "filename": "slice_016.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_017.png",
+        "filename": "slice_017.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_018.png",
+        "filename": "slice_018.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_019.png",
+        "filename": "slice_019.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_020.png",
+        "filename": "slice_020.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_021.png",
+        "filename": "slice_021.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_022.png",
+        "filename": "slice_022.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_023.png",
+        "filename": "slice_023.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_024.png",
+        "filename": "slice_024.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_025.png",
+        "filename": "slice_025.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_026.png",
+        "filename": "slice_026.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_027.png",
+        "filename": "slice_027.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_028.png",
+        "filename": "slice_028.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_029.png",
+        "filename": "slice_029.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_030.png",
+        "filename": "slice_030.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_031.png",
+        "filename": "slice_031.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_032.png",
+        "filename": "slice_032.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_033.png",
+        "filename": "slice_033.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_034.png",
+        "filename": "slice_034.png",
+        "modal": "ct"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_000.png",
+        "filename": "slice_000.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_001.png",
+        "filename": "slice_001.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_002.png",
+        "filename": "slice_002.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_003.png",
+        "filename": "slice_003.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_004.png",
+        "filename": "slice_004.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_005.png",
+        "filename": "slice_005.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_006.png",
+        "filename": "slice_006.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_007.png",
+        "filename": "slice_007.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_008.png",
+        "filename": "slice_008.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_009.png",
+        "filename": "slice_009.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_010.png",
+        "filename": "slice_010.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_011.png",
+        "filename": "slice_011.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_012.png",
+        "filename": "slice_012.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_013.png",
+        "filename": "slice_013.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_014.png",
+        "filename": "slice_014.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_015.png",
+        "filename": "slice_015.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_016.png",
+        "filename": "slice_016.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_017.png",
+        "filename": "slice_017.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_018.png",
+        "filename": "slice_018.png",
+        "modal": "t1"
+      },
+      {
+        "path": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/mri/t1/slice_019.png",
+        "filename": "slice_019.png",
+        "modal": "t1"
+      }
+    ],
+    "evidence_status": "insufficient",
+    "lymph": {
+      "patient_id": "11111",
+      "task": "lymph",
+      "stage": "MR(T1+T2+T1ce)",
+      "threshold": 0.6,
+      "delta": 0.05,
+      "avg_cls_score": 0.7358,
+      "n_slices": 55,
+      "per_modal": {
+        "ct": {
+          "mean_prob": 0.6804,
+          "vote": 1,
+          "n": 35
+        },
+        "t1": {
+          "mean_prob": 0.8327,
+          "vote": 1,
+          "n": 20
+        }
+      },
+      "n_modals": 2,
+      "signals": {
+        "in_band": false,
+        "slice_agreement": 0.873,
+        "modal_agree": true
+      },
+      "trust": true,
+      "diagnosis": "positive",
+      "reject_reasons": [],
+      "stopped": true,
+      "forced_decision": false,
+      "recommended_next": null,
+      "recommendation_text": "针对病人 11111 的 MR(T1+T2+T1ce) 阶段，临床已判定淋巴结转移为阳性（疑似浸润），建议立即停检，无需补充影像。",
+      "used_qwen": true
+    },
+    "parametrium": {
+      "patient_id": "11111",
+      "task": "parametrium",
+      "stage": "MR(T1+T2+T1ce)",
+      "threshold": 0.25,
+      "delta": 0.04,
+      "avg_cls_score": 0.4114,
+      "n_slices": 55,
+      "per_modal": {
+        "ct": {
+          "mean_prob": 0.5507,
+          "vote": 1,
+          "n": 35
+        },
+        "t1": {
+          "mean_prob": 0.1675,
+          "vote": 0,
+          "n": 20
+        }
+      },
+      "n_modals": 2,
+      "signals": {
+        "in_band": false,
+        "slice_agreement": 0.655,
+        "modal_agree": false
+      },
+      "trust": false,
+      "diagnosis": "positive",
+      "reject_reasons": [
+        "slice-disagree",
+        "modal-disagree"
+      ],
+      "stopped": false,
+      "forced_decision": false,
+      "recommended_next": "PET",
+      "recommendation_text": "鉴于病人 11111 在【MR(T1+T2+T1ce)】阶段结论不可信（同一病人多张切片预测不一致；多个模态预测结论冲突），建议补充 PET/CT 检查后再判定。",
+      "used_qwen": true
+    },
+    "generated_at": "2026-06-15 15:50:38"
+  }
+}

@@ -2,33 +2,33 @@
   "assessment": [
     {
       "title": "盆腔淋巴结转移",
-      "riskText": "中等风险",
-      "riskColor": "orange",
-      "percent": 47,
-      "strokeColor": "#f59e0b",
-      "railColor": "#ffedd5",
-      "borderClassName": "border-orange-200",
-      "bgClassName": "bg-orange-50",
-      "evidenceSufficiency": "一般",
-      "evidenceClassName": "text-orange-500",
-      "modelConsistency": "中等",
-      "positiveSliceRatio": "47 / 429",
-      "keyFinding": "盆腔淋巴结形态异常，需进一步检查"
+      "riskText": "高风险",
+      "riskColor": "red",
+      "percent": 74,
+      "strokeColor": "#ef4444",
+      "railColor": "#fee2e2",
+      "borderClassName": "border-red-200",
+      "bgClassName": "bg-red-50",
+      "evidenceSufficiency": "较充分",
+      "evidenceClassName": "text-green-600",
+      "modelConsistency": "高",
+      "positiveSliceRatio": "55 / 55",
+      "keyFinding": "针对病人 11111 的 MR(T1+T2+T1ce) 阶段，临床已判定淋巴结转移为阳性（疑似浸润），建议立即停检，无需补充影像。"
     },
     {
       "title": "宫旁浸润",
       "riskText": "中等风险",
       "riskColor": "orange",
-      "percent": 38,
+      "percent": 41,
       "strokeColor": "#f59e0b",
       "railColor": "#ffedd5",
       "borderClassName": "border-orange-200",
       "bgClassName": "bg-orange-50",
-      "evidenceSufficiency": "一般",
-      "evidenceClassName": "text-orange-500",
-      "modelConsistency": "中等",
-      "positiveSliceRatio": "38 / 429",
-      "keyFinding": "宫旁组织边界模糊，建议活检"
+      "evidenceSufficiency": "不足",
+      "evidenceClassName": "text-red-500",
+      "modelConsistency": "低",
+      "positiveSliceRatio": "35 / 55",
+      "keyFinding": "鉴于病人 11111 在【MR(T1+T2+T1ce)】阶段结论不可信（同一病人多张切片预测不一致；多个模态预测结论冲突），建议补充 PET/CT 检查后再判定。"
     }
   ]
 }

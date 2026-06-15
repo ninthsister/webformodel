@@ -1,17 +1,19 @@
-[
-  {
-    "title": "盆腔淋巴结评估：",
-    "content": "当前影像显示左侧髂外淋巴结可疑。PET/CT 检查缺失，因此在最终治疗方案制定前，建议补充相关影像学检查。",
-    "titleClassName": "text-red-500"
-  },
-  {
-    "title": "宫旁浸润评估：",
-    "content": "当前 MRI 显示宫旁界面不清。建议结合增强 MRI 和 DWI 进一步评估宫旁浸润情况。",
-    "titleClassName": "text-green-600"
-  },
-  {
-    "title": "最终建议：",
-    "content": "当前证据不足，暂不能形成明确的术前评估结论。建议补充影像资料后，结合 MDT 多学科讨论进一步制定治疗方案。",
-    "titleClassName": "text-blue-600"
-  }
-]
+{
+  "aireportdraft": [
+    {
+      "title": "盆腔淋巴结评估：",
+      "content": "AI 模型评估盆腔淋巴结转移风险分数为 60%。鉴于 MR 影像在淋巴结转移评估中预测分数贴近判定阈值且置信度不足，建议补充 CT 检查后再行判定。",
+      "titleClassName": "text-red-500"
+    },
+    {
+      "title": "宫旁浸润评估：",
+      "content": "AI 模型评估宫旁浸润风险分数为 24%。鉴于病人 web-request 在【MR(T1+T2+T1ce)】阶段结论不可信（预测分数贴近判定阈值，置信度不足），建议补充 PET/CT 检查后再进行最终判定。",
+      "titleClassName": "text-green-600"
+    },
+    {
+      "title": "最终建议：",
+      "content": "当前模型提示证据不足，建议补充完整影像资料和临床病史后再次分析。在证据不足情况下，不建议仅凭 AI 结果形成确定性术前结论。",
+      "titleClassName": "text-blue-600"
+    }
+  ]
+}

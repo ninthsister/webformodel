@@ -48,4 +48,12 @@ app.include_router(feedback.router)
 app.include_router(predict.router)
 
 # 启动命令：
-# uvicorn main_new:app --reload --host 0.0.0.0 --port 8000
+# uvicorn main_new:app --reload --host 0.0.0.0 --port 8001
+'''
+curl -X POST http://localhost:8001/predict \
+-F "files=@/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_000.png" \
+-F "files=@/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_001.png" \
+-F "files=@/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_002.png" \
+-F "files=@/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_003.png" \
+-F "files=@/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/11111/img/ct/slice_004.png" 
+'''

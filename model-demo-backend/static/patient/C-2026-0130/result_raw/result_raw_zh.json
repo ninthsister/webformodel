@@ -1,0 +1,72 @@
+{
+  "result_raw": {
+    "patient_id": "C-2026-0130",
+    "source_image": "/home/ljc/wtx/mycode/webformodel/model-demo-backend/static/patient/C-2026-0130/img/pet/slice_000.png",
+    "evidence_status": "insufficient",
+    "lymph": {
+      "patient_id": "web-request",
+      "task": "lymph",
+      "stage": "MR(T1+T2+T1ce)",
+      "threshold": 0.6,
+      "delta": 0.05,
+      "avg_cls_score": 0.603,
+      "n_slices": 1,
+      "per_modal": {
+        "t2": {
+          "mean_prob": 0.603,
+          "vote": 1,
+          "n": 1
+        }
+      },
+      "n_modals": 1,
+      "signals": {
+        "in_band": true,
+        "slice_agreement": 1.0,
+        "modal_agree": null
+      },
+      "trust": false,
+      "diagnosis": "positive",
+      "reject_reasons": [
+        "in-margin-band"
+      ],
+      "stopped": false,
+      "forced_decision": false,
+      "recommended_next": "CT",
+      "recommendation_text": "鉴于 MR 影像在淋巴结转移评估中预测分数贴近判定阈值且置信度不足，建议补充 CT 检查后再行判定。",
+      "used_qwen": true
+    },
+    "parametrium": {
+      "patient_id": "web-request",
+      "task": "parametrium",
+      "stage": "MR(T1+T2+T1ce)",
+      "threshold": 0.25,
+      "delta": 0.04,
+      "avg_cls_score": 0.2365,
+      "n_slices": 1,
+      "per_modal": {
+        "t2": {
+          "mean_prob": 0.2365,
+          "vote": 0,
+          "n": 1
+        }
+      },
+      "n_modals": 1,
+      "signals": {
+        "in_band": true,
+        "slice_agreement": 1.0,
+        "modal_agree": null
+      },
+      "trust": false,
+      "diagnosis": "negative",
+      "reject_reasons": [
+        "in-margin-band"
+      ],
+      "stopped": false,
+      "forced_decision": false,
+      "recommended_next": "PET",
+      "recommendation_text": "鉴于病人 web-request 在【MR(T1+T2+T1ce)】阶段结论不可信（预测分数贴近判定阈值，置信度不足），建议补充 PET/CT 检查后再进行最终判定。",
+      "used_qwen": true
+    },
+    "generated_at": "2026-06-12 20:01:31"
+  }
+}

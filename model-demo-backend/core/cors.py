@@ -7,6 +7,7 @@ def setup_cors(app: FastAPI):
         CORSMiddleware,
         allow_origins=[
             "http://localhost:3000",
+            "http://localhost:8080",
             "http://127.0.0.1:3000",
             "http://172.23.148.30:3000",
             "http://172.23.148.30:8080",
