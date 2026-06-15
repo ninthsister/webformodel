@@ -46,11 +46,16 @@
     },
     {
       "type": "suggestions",
-      "title": "Next-step suggestions",
+      "title": "Lymph node recommendation",
       "items": [
-        "Supplement missing imaging sequences or clinical history",
-        "Wait for the complete imaging analysis workflow to finish",
-        "Consider MDT discussion when necessary"
+        "For patient 123321, lymph node metastasis is reliably assessed as positive. Further imaging is not immediately required, but physician review is still recommended."
+      ]
+    },
+    {
+      "type": "suggestions",
+      "title": "Parametrial recommendation",
+      "items": [
+        "For patient 123321, the current conclusion for parametrial invasion is not reliable. Additional PET/CT or other necessary imaging is recommended before final assessment."
       ]
     }
   ]

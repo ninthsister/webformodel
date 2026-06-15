@@ -12,8 +12,7 @@
       "evidenceSufficiency": "Sufficient",
       "evidenceClassName": "text-green-600",
       "modelConsistency": "High",
-      "positiveSliceRatio": "60 / 60",
-      "keyFinding": "Pelvic lymph node metastasis: positive."
+      "positiveSliceRatio": "60 / 60"
     },
     {
       "title": "Parametrial invasion",
@@ -27,8 +26,7 @@
       "evidenceSufficiency": "Insufficient",
       "evidenceClassName": "text-red-500",
       "modelConsistency": "Low",
-      "positiveSliceRatio": "20 / 60",
-      "keyFinding": "Parametrial invasion: negative."
+      "positiveSliceRatio": "20 / 60"
     }
   ]
 }

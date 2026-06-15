@@ -480,16 +480,80 @@ def build_reasoning_from_result_raw(
     )
 
     # 直接使用模型返回的 recommendation_text
-    lymph_advice = lymph.get("recommendation_text") or _txt(
-        lang,
-        "暂无淋巴结转移相关建议。",
-        "No lymph node metastasis recommendation is available.",
+    patient_id = (
+        raw.get("patient_id")
+        or (patient_info or {}).get("id")
+        or (patient_info or {}).get("patient_id")
+        or _txt(lang, "当前病人", "the current patient")
     )
 
-    para_advice = para.get("recommendation_text") or _txt(
-        lang,
-        "暂无宫旁浸润相关建议。",
-        "No parametrial invasion recommendation is available.",
+
+    def _make_advice_from_raw(
+        task_raw: dict,
+        task_name_zh: str,
+        task_name_en: str,
+    ) -> str:
+        """
+        中文：优先使用模型返回的 recommendation_text。
+        英文：不要直接使用中文 recommendation_text，而是根据 trust / diagnosis 自动生成英文建议。
+        """
+        if not isinstance(task_raw, dict):
+            task_raw = {}
+
+        trust = bool(task_raw.get("trust"))
+        diagnosis = task_raw.get("diagnosis")
+
+        # 中文直接使用模型返回文本
+        if not _is_en(lang):
+            return task_raw.get("recommendation_text") or (
+                f"暂无{task_name_zh}相关建议。"
+            )
+
+        # 如果以后模型支持英文建议，可以优先读取这些字段
+        english_text = (
+            task_raw.get("recommendation_text_en")
+            or task_raw.get("recommendation_en")
+            or task_raw.get("recommendationTextEn")
+        )
+
+        if english_text:
+            return english_text
+
+        # 英文兜底生成
+        if trust:
+            if diagnosis == "positive":
+                return (
+                    f"For patient {patient_id}, {task_name_en} is reliably assessed as positive. "
+                    "Further imaging is not immediately required, but physician review is still recommended."
+                )
+
+            if diagnosis == "negative":
+                return (
+                    f"For patient {patient_id}, {task_name_en} is reliably assessed as negative. "
+                    "Further imaging is not prioritized unless clinically indicated."
+                )
+
+            return (
+                f"For patient {patient_id}, the assessment of {task_name_en} is reliable but indeterminate. "
+                "Physician review is recommended before deciding whether additional imaging is needed."
+            )
+
+        return (
+            f"For patient {patient_id}, the current conclusion for {task_name_en} is not reliable. "
+            "Additional PET/CT or other necessary imaging is recommended before final assessment."
+        )
+
+
+    lymph_advice = _make_advice_from_raw(
+        lymph,
+        "淋巴结转移",
+        "lymph node metastasis",
+    )
+
+    para_advice = _make_advice_from_raw(
+        para,
+        "宫旁浸润",
+        "parametrial invasion",
     )
 
     if sufficient:

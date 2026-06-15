@@ -342,7 +342,7 @@
       "stopped": true,
       "forced_decision": false,
       "recommended_next": null,
-      "recommendation_text": "针对病人 123321（淋巴结转移），在【MR(T1+T2+T1ce)】阶段已可信判定为阳性（疑似转移/浸润），建议立即停检，无需补充影像。",
+      "recommendation_text": "针对病人 123321 的 MR(T1+T2+T1ce) 检查，临床已判定淋巴结转移为阳性（疑似浸润），且该结论可信度为可信，因此建议立即停检，无需进行任何补充影像检查。",
       "used_qwen": true
     },
     "parametrium": {
@@ -386,9 +386,9 @@
       "stopped": false,
       "forced_decision": false,
       "recommended_next": "PET",
-      "recommendation_text": "针对病人 123321 的宫旁浸润，鉴于 MR(T1+T2+T1ce) 阶段结论不可信，建议补充 PET/CT 检查后再行最终判定。",
+      "recommendation_text": "针对病人 123321 的宫旁浸润，在【MR(T1+T2+T1ce)】阶段结论不可信（预测分数贴近阈值、置信度不足及多模态预测冲突），建议补充 PET/CT 检查后再行判定。",
       "used_qwen": true
     },
-    "generated_at": "2026-06-15 16:24:30"
+    "generated_at": "2026-06-15 18:07:55"
   }
 }
